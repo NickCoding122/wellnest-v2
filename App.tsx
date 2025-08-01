@@ -2,10 +2,12 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { ActivityIndicator, View } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';
+import theme from '@/constants/Theme';
 
 function RootNavigation() {
   const { user, loading } = useAuth();
@@ -27,9 +29,11 @@ function RootNavigation() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <RootNavigation />
-    </AuthProvider>
+    <PaperProvider theme={theme}>
+      <AuthProvider>
+        <RootNavigation />
+      </AuthProvider>
+    </PaperProvider>
   );
 }
 
