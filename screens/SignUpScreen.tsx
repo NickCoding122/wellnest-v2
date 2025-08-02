@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  StyleSheet,
 } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -46,31 +47,29 @@ export default function SignUpScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
+    <SafeAreaView style={styles.container}>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={styles.scrollContainer}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View className="flex-1 justify-center items-center px-6 py-8">
-          <View className="w-full max-w-sm space-y-8">
+        <View style={styles.content}>
+          <View style={styles.formContainer}>
             {/* Logo and Header */}
-            <View className="items-center space-y-4">
-              <View className="w-20 h-20 bg-green-100 rounded-2xl items-center justify-center shadow-sm">
-                <View className="w-12 h-12 bg-green-500 rounded-xl" />
+            <View style={styles.header}>
+              <View style={styles.logoContainer}>
+                <View style={styles.logo} />
               </View>
-              <View className="space-y-2">
-                <Text className="text-3xl font-bold text-gray-900 dark:text-white text-center">
-                  Join Wellnest
-                </Text>
-                <Text className="text-base text-gray-600 dark:text-gray-400 text-center">
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>Join Wellnest</Text>
+                <Text style={styles.subtitle}>
                   Create your account to get started
                 </Text>
               </View>
             </View>
 
             {/* Form */}
-            <View className="space-y-4">
+            <View style={styles.form}>
               <AppInput
                 label="Email Address"
                 value={email}
@@ -92,7 +91,7 @@ export default function SignUpScreen() {
                   autoComplete="password-new"
                   textContentType="newPassword"
                 />
-                <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                <Text style={styles.helperText}>
                   Must be at least 6 characters
                 </Text>
               </View>
@@ -103,24 +102,22 @@ export default function SignUpScreen() {
               onPress={handleSignUp}
               loading={loading}
               disabled={loading}
-              className="w-full"
+              style={styles.button}
               bgColor="bg-green-500"
             >
               Create Account
             </AppButton>
 
             {/* Login Link */}
-            <View className="items-center pt-4">
+            <View style={styles.linkContainer}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('Login')}
                 disabled={loading}
-                className="py-2"
+                style={styles.linkTouchable}
               >
-                <Text className="text-base text-gray-600 dark:text-gray-400 text-center">
+                <Text style={styles.linkText}>
                   Already have an account?{' '}
-                  <Text className="text-green-600 dark:text-green-400 font-medium">
-                    Sign in
-                  </Text>
+                  <Text style={styles.linkHighlight}>Sign in</Text>
                 </Text>
               </TouchableOpacity>
             </View>
@@ -130,3 +127,95 @@ export default function SignUpScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f9fafb',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+  },
+  formContainer: {
+    width: '100%',
+    maxWidth: 384,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  logoContainer: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#dcfce7',
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  logo: {
+    width: 48,
+    height: 48,
+    backgroundColor: '#22c55e',
+    borderRadius: 12,
+  },
+  titleContainer: {
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#111827',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6b7280',
+    textAlign: 'center',
+  },
+  form: {
+    marginBottom: 24,
+  },
+  helperText: {
+    marginTop: -12,
+    marginBottom: 16,
+    fontSize: 12,
+    color: '#6b7280',
+  },
+  button: {
+    width: '100%',
+    marginBottom: 16,
+  },
+  linkContainer: {
+    alignItems: 'center',
+    paddingTop: 16,
+  },
+  linkTouchable: {
+    paddingVertical: 8,
+  },
+  linkText: {
+    fontSize: 16,
+    color: '#6b7280',
+    textAlign: 'center',
+  },
+  linkHighlight: {
+    color: '#16a34a',
+    fontWeight: '500',
+  },
+});
