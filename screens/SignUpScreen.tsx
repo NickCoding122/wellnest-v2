@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
@@ -39,41 +39,52 @@ export default function SignUpScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center px-4">
-      <AppInput
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-        className="mb-4"
-      />
-      <AppInput
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        autoCapitalize="none"
-        className="mb-4"
-      />
-      <AppButton
-        onPress={handleSignUp}
-        loading={loading}
-        disabled={loading}
-        className="mt-2"
+    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-gray-900">
+      <ScrollView
+        contentContainerClassName="flex-grow justify-center px-6 py-8"
+        keyboardShouldPersistTaps="handled"
       >
-        Create Account
-      </AppButton>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Login')}
-        className="mt-4"
-        disabled={loading}
-      >
-        <Text className="text-center text-blue-600">
-          Already have an account? Log In
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <View className="items-center mb-8">
+          <View className="w-16 h-16 rounded-full bg-blue-500 mb-4" />
+          <Text className="text-2xl font-bold text-gray-900 dark:text-white">
+            Welcome to Wellnest
+          </Text>
+        </View>
+        <View className="space-y-4">
+          <AppInput
+            label="Email"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+          <AppInput
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+        </View>
+        <AppButton
+          onPress={handleSignUp}
+          loading={loading}
+          disabled={loading}
+          className="mt-6"
+        >
+          Create Account
+        </AppButton>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Login')}
+          className="mt-4"
+          disabled={loading}
+        >
+          <Text className="text-center text-sm text-gray-500 dark:text-gray-400">
+            Already have an account? Log in
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
