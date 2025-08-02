@@ -1,37 +1,76 @@
 import React from 'react';
-import { TextInput, View, Text, TextInputProps } from 'react-native';
+import { TextInput, View, Text, TextInputProps, StyleSheet } from 'react-native';
 
 export interface AppInputProps extends TextInputProps {
   label?: string;
-  className?: string;
   error?: string;
 }
 
 export default function AppInput({ 
   label, 
-  className, 
   error,
+  style,
   ...props 
 }: AppInputProps) {
   return (
-    <View className={className}>
+    <View style={styles.container}>
       {label && (
-        <Text className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <Text style={styles.label}>
           {label}
         </Text>
       )}
       <TextInput
-        className={`bg-white dark:bg-gray-800 border ${
-          error ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
-        } rounded-xl px-4 py-3 text-base shadow-sm focus:border-blue-500 dark:focus:border-blue-400 dark:text-white w-full`}
+        style={[
+          styles.input,
+          error && styles.inputError,
+          style
+        ]}
         placeholderTextColor="#9CA3AF"
         {...props}
       />
       {error && (
-        <Text className="mt-1 text-xs text-red-600 dark:text-red-400">
+        <Text style={styles.errorText}>
           {error}
         </Text>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 16,
+  },
+  label: {
+    marginBottom: 8,
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#374151',
+  },
+  input: {
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 16,
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  inputError: {
+    borderColor: '#fca5a5',
+  },
+  errorText: {
+    marginTop: 4,
+    fontSize: 12,
+    color: '#dc2626',
+  },
+});
