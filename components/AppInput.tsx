@@ -1,38 +1,71 @@
-import React from 'react';
-import { TextInput, View, Text, TextInputProps, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+  TextInput,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TextInputProps,
+} from 'react-native';
 
-export interface AppInputProps extends TextInputProps {
+interface AppInputProps extends TextInputProps {
   label?: string;
   error?: string;
+  showPasswordToggle?: boolean;
+  containerStyle?: any;
+  inputStyle?: any;
 }
 
-export default function AppInput({ 
-  label, 
+export default function AppInput({
+  label,
   error,
-  style,
-  ...props 
+  showPasswordToggle = false,
+  containerStyle,
+  inputStyle,
+  secureTextEntry,
+  ...props
 }: AppInputProps) {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleTogglePassword = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const isPassword = secureTextEntry || showPasswordToggle;
+  const actualSecureEntry = isPassword && !isPasswordVisible;
+
   return (
-    <View style={styles.container}>
-      {label && (
-        <Text style={styles.label}>
-          {label}
-        </Text>
-      )}
-      <TextInput
-        style={[
-          styles.input,
-          error && styles.inputError,
-          style
-        ]}
-        placeholderTextColor="#9CA3AF"
-        {...props}
-      />
-      {error && (
-        <Text style={styles.errorText}>
-          {error}
-        </Text>
-      )}
+    <View style={[styles.container, containerStyle]}>
+      {label && <Text style={styles.label}>{label}</Text>}
+      
+      <View style={[
+        styles.inputContainer,
+        isFocused && styles.inputContainerFocused,
+        error && styles.inputContainerError
+      ]}>
+        <TextInput
+          style={[styles.input, inputStyle]}
+          secureTextEntry={actualSecureEntry}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          placeholderTextColor="#9CA3AF"
+          {...props}
+        />
+        
+        {isPassword && (
+          <TouchableOpacity
+            style={styles.passwordToggle}
+            onPress={handleTogglePassword}
+          >
+            <Text style={styles.passwordToggleText}>
+              {isPasswordVisible ? '👁️' : '👁️‍🗨️'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 }
@@ -42,35 +75,55 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   label: {
-    marginBottom: 8,
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
-    color: '#374151',
+    color: '#1F2937',
+    marginBottom: 8,
   },
-  input: {
-    backgroundColor: '#ffffff',
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFB',
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: '#E5E7EB',
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    width: '100%',
-    shadowColor: '#000',
+    minHeight: 52,
+  },
+  inputContainerFocused: {
+    borderColor: '#10B981',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#10B981',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 0,
     },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  inputError: {
-    borderColor: '#fca5a5',
+  inputContainerError: {
+    borderColor: '#EF4444',
+    backgroundColor: '#FEF2F2',
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    color: '#1F2937',
+    paddingVertical: 16,
+  },
+  passwordToggle: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  passwordToggleText: {
+    fontSize: 16,
+    color: '#6B7280',
   },
   errorText: {
-    marginTop: 4,
     fontSize: 12,
-    color: '#dc2626',
+    color: '#EF4444',
+    marginTop: 4,
+    marginLeft: 4,
   },
 });
