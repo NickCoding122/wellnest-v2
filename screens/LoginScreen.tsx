@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   StyleSheet,
 } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -25,6 +24,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async () => {
     if (!validateEmail(email)) {
@@ -54,24 +54,23 @@ export default function LoginScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.content}>
+          {/* Back Button */}
+          <TouchableOpacity 
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.backIcon}>←</Text>
+          </TouchableOpacity>
+
           <View style={styles.formContainer}>
-            {/* Logo and Header */}
+            {/* Header */}
             <View style={styles.header}>
-              <View style={styles.logoContainer}>
-                <View style={styles.logo} />
-              </View>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title}>Welcome Back</Text>
-                <Text style={styles.subtitle}>
-                  Sign in to your Wellnest account
-                </Text>
-              </View>
+              <Text style={styles.title}>Email</Text>
             </View>
 
             {/* Form */}
             <View style={styles.form}>
               <AppInput
-                label="Email Address"
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Enter your email"
@@ -79,17 +78,35 @@ export default function LoginScreen() {
                 keyboardType="email-address"
                 autoComplete="email"
                 textContentType="emailAddress"
+                style={styles.input}
               />
+              
+              <Text style={styles.label}>Password</Text>
               <AppInput
-                label="Password"
                 value={password}
                 onChangeText={setPassword}
-                placeholder="Enter your password"
+                placeholder="Password"
                 secureTextEntry
                 autoCapitalize="none"
                 autoComplete="password"
                 textContentType="password"
+                style={styles.input}
               />
+            </View>
+
+            {/* Remember Me & Forgot Password */}
+            <View style={styles.optionsRow}>
+              <TouchableOpacity 
+                style={styles.rememberContainer}
+                onPress={() => setRememberMe(!rememberMe)}
+              >
+                <View style={[styles.checkbox, rememberMe && styles.checkboxActive]} />
+                <Text style={styles.rememberText}>Remember me</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity>
+                <Text style={styles.forgotText}>Forgot password?</Text>
+              </TouchableOpacity>
             </View>
 
             {/* Login Button */}
@@ -97,21 +114,39 @@ export default function LoginScreen() {
               onPress={handleLogin}
               loading={loading}
               disabled={loading}
-              style={styles.button}
+              style={styles.loginButton}
             >
-              Sign In
+              Log in
             </AppButton>
+
+            {/* Divider */}
+            <View style={styles.dividerContainer}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>Or with</Text>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Social Login Buttons */}
+            <View style={styles.socialContainer}>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialIcon}>f</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialIcon}>G</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <Text style={styles.socialIcon}>🍎</Text>
+              </TouchableOpacity>
+            </View>
 
             {/* Sign Up Link */}
             <View style={styles.linkContainer}>
               <TouchableOpacity
                 onPress={() => navigation.navigate('SignUp')}
                 disabled={loading}
-                style={styles.linkTouchable}
               >
                 <Text style={styles.linkText}>
-                  Don't have an account?{' '}
-                  <Text style={styles.linkHighlight}>Sign up</Text>
+                  Don't have an account? <Text style={styles.linkHighlight}>Sign Up</Text>
                 </Text>
               </TouchableOpacity>
             </View>
@@ -125,85 +160,146 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#FFFFFF',
   },
   scrollContainer: {
     flexGrow: 1,
   },
   content: {
     flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 20,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingVertical: 32,
+    marginBottom: 40,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '#1F2937',
+    fontWeight: '300',
   },
   formContainer: {
-    width: '100%',
-    maxWidth: 384,
+    flex: 1,
   },
   header: {
-    alignItems: 'center',
     marginBottom: 32,
   },
-  logoContainer: {
-    width: 80,
-    height: 80,
-    backgroundColor: '#dbeafe',
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  logo: {
-    width: 48,
-    height: 48,
-    backgroundColor: '#3b82f6',
-    borderRadius: 12,
-  },
-  titleContainer: {
-    alignItems: 'center',
-  },
   title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#111827',
-    textAlign: 'center',
+    fontSize: 32,
+    fontWeight: '600',
+    color: '#1F2937',
     marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#6b7280',
-    textAlign: 'center',
   },
   form: {
     marginBottom: 24,
   },
-  button: {
-    width: '100%',
-    marginBottom: 16,
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1F2937',
+    marginBottom: 8,
+    marginTop: 20,
+  },
+  input: {
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    fontSize: 16,
+    color: '#1F2937',
+    marginBottom: 4,
+  },
+  optionsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  rememberContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#D1D5DB',
+    marginRight: 8,
+    backgroundColor: '#FFFFFF',
+  },
+  checkboxActive: {
+    backgroundColor: '#10B981',
+    borderColor: '#10B981',
+  },
+  rememberText: {
+    fontSize: 14,
+    color: '#6B7280',
+  },
+  forgotText: {
+    fontSize: 14,
+    color: '#6B7280',
+    fontWeight: '500',
+  },
+  loginButton: {
+    backgroundColor: '#10B981',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#E5E7EB',
+  },
+  dividerText: {
+    marginHorizontal: 16,
+    fontSize: 14,
+    color: '#9CA3AF',
+  },
+  socialContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 16,
+    marginBottom: 40,
+  },
+  socialButton: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  socialIcon: {
+    fontSize: 20,
+    fontWeight: '600',
   },
   linkContainer: {
     alignItems: 'center',
-    paddingTop: 16,
-  },
-  linkTouchable: {
-    paddingVertical: 8,
+    paddingBottom: 40,
   },
   linkText: {
     fontSize: 16,
-    color: '#6b7280',
+    color: '#6B7280',
     textAlign: 'center',
   },
   linkHighlight: {
-    color: '#2563eb',
-    fontWeight: '500',
+    color: '#10B981',
+    fontWeight: '600',
   },
 });
