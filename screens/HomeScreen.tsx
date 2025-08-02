@@ -6,7 +6,8 @@ import {
   ScrollView, 
   TouchableOpacity, 
   StyleSheet,
-  Image 
+  Image,
+  Alert 
 } from 'react-native';
 
 import { signOut } from '../lib/auth';
@@ -18,14 +19,43 @@ export default function HomeScreen() {
   const [currentLocation, setCurrentLocation] = useState('Sydney');
 
   const handleLogout = async () => {
-    setLoading(true);
-    try {
-      await signOut();
-    } catch (e) {
-      console.warn('Sign out failed', e);
-    } finally {
-      setLoading(false);
-    }
+    Alert.alert(
+      'Sign Out',
+      'Are you sure you want to sign out?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Sign Out',
+          style: 'destructive',
+          onPress: async () => {
+            setLoading(true);
+            try {
+              await signOut();
+            } catch (e) {
+              console.warn('Sign out failed', e);
+              Alert.alert('Error', 'Failed to sign out. Please try again.');
+            } finally {
+              setLoading(false);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleCategoryPress = (categoryName: string) => {
+    Alert.alert('Category Selected', `You selected ${categoryName}`);
+  };
+
+  const handleProviderPress = (providerName: string) => {
+    Alert.alert('Provider Selected', `You selected ${providerName}`);
+  };
+
+  const handleQuickAction = (actionName: string) => {
+    Alert.alert('Quick Action', `You selected ${actionName}`);
   };
 
   const categories = [
@@ -83,7 +113,10 @@ export default function HomeScreen() {
             </View>
           </View>
           
-          <TouchableOpacity style={styles.notificationButton}>
+          <TouchableOpacity 
+            style={styles.notificationButton}
+            onPress={() => Alert.alert('Notifications', 'No new notifications')}
+          >
             <View style={styles.notificationBadge} />
           </TouchableOpacity>
         </View>
@@ -111,6 +144,8 @@ export default function HomeScreen() {
               <TouchableOpacity 
                 key={category.id} 
                 style={[styles.categoryCard, { backgroundColor: category.color }]}
+                onPress={() => handleCategoryPress(category.name)}
+                activeOpacity={0.7}
               >
                 <View style={styles.categoryIcon} />
                 <Text style={styles.categoryText}>{category.name}</Text>
@@ -121,7 +156,11 @@ export default function HomeScreen() {
 
         {/* Featured Banner */}
         <View style={styles.bannerSection}>
-          <View style={styles.banner}>
+          <TouchableOpacity 
+            style={styles.banner}
+            onPress={() => Alert.alert('Premium', 'Learn more about premium services')}
+            activeOpacity={0.8}
+          >
             <View style={styles.bannerContent}>
               <View style={styles.badgeContainer}>
                 <Text style={styles.badgeText}>Premium</Text>
@@ -130,18 +169,18 @@ export default function HomeScreen() {
               <Text style={styles.bannerSubtitle}>
                 Connect with certified health professionals
               </Text>
-              <TouchableOpacity style={styles.bannerButton}>
+              <View style={styles.bannerButton}>
                 <Text style={styles.bannerButtonText}>Explore</Text>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Popular Providers */}
         <View style={styles.providersSection}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Recommended for You</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => Alert.alert('View All', 'Show all providers')}>
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
           </View>
@@ -155,6 +194,8 @@ export default function HomeScreen() {
               <TouchableOpacity 
                 key={provider.id} 
                 style={styles.providerCard}
+                onPress={() => handleProviderPress(provider.name)}
+                activeOpacity={0.7}
               >
                 <View style={styles.providerImageContainer}>
                   {provider.image ? (
@@ -194,17 +235,29 @@ export default function HomeScreen() {
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           
           <View style={styles.quickActionsGrid}>
-            <TouchableOpacity style={styles.quickActionCard}>
+            <TouchableOpacity 
+              style={styles.quickActionCard}
+              onPress={() => handleQuickAction('Book Session')}
+              activeOpacity={0.7}
+            >
               <View style={styles.quickActionIcon} />
               <Text style={styles.quickActionText}>Book Session</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.quickActionCard}>
+            <TouchableOpacity 
+              style={styles.quickActionCard}
+              onPress={() => handleQuickAction('Messages')}
+              activeOpacity={0.7}
+            >
               <View style={styles.quickActionIcon} />
               <Text style={styles.quickActionText}>Messages</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.quickActionCard}>
+            <TouchableOpacity 
+              style={styles.quickActionCard}
+              onPress={() => handleQuickAction('My Health')}
+              activeOpacity={0.7}
+            >
               <View style={styles.quickActionIcon} />
               <Text style={styles.quickActionText}>My Health</Text>
             </TouchableOpacity>
@@ -217,6 +270,7 @@ export default function HomeScreen() {
             onPress={handleLogout}
             disabled={loading}
             style={[styles.logoutButton, loading && styles.logoutButtonDisabled]}
+            activeOpacity={0.7}
           >
             <Text style={styles.logoutButtonText}>
               {loading ? 'Signing out...' : 'Sign Out'}
@@ -228,23 +282,38 @@ export default function HomeScreen() {
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         <View style={styles.bottomNavContent}>
-          <TouchableOpacity style={styles.bottomNavItem}>
+          <TouchableOpacity 
+            style={styles.bottomNavItem}
+            onPress={() => Alert.alert('Home', 'You are already on the home screen')}
+          >
             <View style={[styles.bottomNavIcon, styles.bottomNavIconActive]} />
             <Text style={styles.bottomNavTextActive}>Home</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavItem}>
+          <TouchableOpacity 
+            style={styles.bottomNavItem}
+            onPress={() => Alert.alert('Search', 'Search feature coming soon')}
+          >
             <View style={styles.bottomNavIcon} />
             <Text style={styles.bottomNavText}>Search</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavItem}>
+          <TouchableOpacity 
+            style={styles.bottomNavItem}
+            onPress={() => Alert.alert('Bookings', 'Bookings feature coming soon')}
+          >
             <View style={styles.bottomNavIcon} />
             <Text style={styles.bottomNavText}>Bookings</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavItem}>
+          <TouchableOpacity 
+            style={styles.bottomNavItem}
+            onPress={() => Alert.alert('Messages', 'Messages feature coming soon')}
+          >
             <View style={styles.bottomNavIcon} />
             <Text style={styles.bottomNavText}>Messages</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavItem}>
+          <TouchableOpacity 
+            style={styles.bottomNavItem}
+            onPress={() => Alert.alert('Profile', 'Profile feature coming soon')}
+          >
             <View style={styles.bottomNavIcon} />
             <Text style={styles.bottomNavText}>Profile</Text>
           </TouchableOpacity>
@@ -600,9 +669,19 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 18,
     alignItems: 'center',
+    shadowColor: '#DC2626',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
   },
   logoutButtonDisabled: {
     backgroundColor: '#9CA3AF',
+    shadowOpacity: 0,
+    elevation: 0,
   },
   logoutButtonText: {
     color: '#FAFAFA',
