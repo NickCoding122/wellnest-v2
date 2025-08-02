@@ -157,7 +157,7 @@ export default function LoginScreen() {
                   <Text className="text-xl font-semibold text-red-500">G</Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="w-14 h-14 rounded-full bg-gray-50 border border-gray-200 justify-center items-center">
-                  <Text className="text-xl">🍎</Text>
+                  <View className="w-6 h-6 bg-gray-800 rounded-sm" />
                 </TouchableOpacity>
               </View>
             </View>
