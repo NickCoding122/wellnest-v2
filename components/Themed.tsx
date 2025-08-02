@@ -43,3 +43,55 @@ export function View(props: ViewProps) {
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
+
+// Additional themed components for better consistency
+export function SafeView(props: ViewProps) {
+  const { style, lightColor = '#FAFAFA', darkColor = '#1F2937', ...otherProps } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+
+  return <DefaultView style={[{ backgroundColor, flex: 1 }, style]} {...otherProps} />;
+}
+
+export function Card(props: ViewProps) {
+  const { style, lightColor = '#FFFFFF', darkColor = '#374151', ...otherProps } = props;
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+
+  return (
+    <DefaultView 
+      style={[
+        { 
+          backgroundColor,
+          borderRadius: 20,
+          padding: 20,
+          shadowColor: '#004225',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.05,
+          shadowRadius: 8,
+          elevation: 2,
+        }, 
+        style
+      ]} 
+      {...otherProps} 
+    />
+  );
+}
+
+export function Section(props: ViewProps) {
+  const { style, ...otherProps } = props;
+
+  return (
+    <DefaultView 
+      style={[
+        { 
+          paddingHorizontal: 32,
+          paddingVertical: 20,
+        }, 
+        style
+      ]} 
+      {...otherProps} 
+    />
+  );
+}
