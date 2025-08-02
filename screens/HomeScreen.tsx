@@ -31,10 +31,10 @@ export default function HomeScreen() {
   };
 
   const categories = [
-    { id: 1, name: 'Nutrition', emoji: '🥗', color: 'bg-orange-50' },
-    { id: 2, name: 'Personal Growth', emoji: '🧠', color: 'bg-purple-50' },
-    { id: 3, name: 'Health', emoji: '❤️', color: 'bg-red-50' },
-    { id: 4, name: 'Fitness', emoji: '💪', color: 'bg-blue-50' },
+    { id: 1, name: 'Nutrition', icon: 'N', color: 'bg-orange-50' },
+    { id: 2, name: 'Personal Growth', icon: 'P', color: 'bg-purple-50' },
+    { id: 3, name: 'Health', icon: 'H', color: 'bg-red-50' },
+    { id: 4, name: 'Fitness', icon: 'F', color: 'bg-blue-50' },
   ];
 
   const providers = [
@@ -71,7 +71,7 @@ export default function HomeScreen() {
         <View className="flex-row justify-between items-start">
           <View className="flex-row items-center">
             <View className="w-8 h-8 justify-center items-center mr-3">
-              <Text className="text-white text-lg">📍</Text>
+              <View className="w-4 h-4 bg-white rounded-full" />
             </View>
             <View>
               <Text className="text-emerald-100 text-sm font-medium">
@@ -88,7 +88,7 @@ export default function HomeScreen() {
           </View>
           
           <TouchableOpacity className="w-10 h-10 bg-emerald-400 rounded-full justify-center items-center">
-            <Text className="text-white text-lg">🔔</Text>
+            <View className="w-4 h-4 bg-white rounded-sm" />
           </TouchableOpacity>
         </View>
       </View>
@@ -109,7 +109,9 @@ export default function HomeScreen() {
                 key={category.id} 
                 className={`${category.color} rounded-2xl px-4 py-3 mr-3 min-w-[100px] items-center`}
               >
-                <Text className="text-2xl mb-1">{category.emoji}</Text>
+                <View className="w-8 h-8 bg-white rounded-full justify-center items-center mb-1">
+                  <Text className="text-gray-700 font-bold">{category.icon}</Text>
+                </View>
                 <Text className="text-gray-700 text-sm font-medium text-center">
                   {category.name}
                 </Text>
@@ -136,7 +138,7 @@ export default function HomeScreen() {
                 </Text>
               </View>
               <View className="ml-4">
-                <Text className="text-4xl">🏀</Text>
+                <View className="w-12 h-12 bg-orange-500 rounded-full" />
               </View>
             </View>
           </View>
@@ -178,7 +180,7 @@ export default function HomeScreen() {
                     />
                   ) : (
                     <View className="w-16 h-16 bg-gray-200 rounded-full justify-center items-center">
-                      <Text className="text-2xl text-gray-500">👤</Text>
+                      <View className="w-8 h-8 bg-gray-400 rounded-full" />
                     </View>
                   )}
                 </View>
@@ -191,7 +193,7 @@ export default function HomeScreen() {
                 </Text>
                 
                 <View className="flex-row justify-center items-center">
-                  <Text className="text-yellow-500 mr-1">⭐</Text>
+                  <View className="w-3 h-3 bg-yellow-500 rounded-sm mr-1" />
                   <Text className="text-gray-700 text-sm font-medium mr-1">
                     {provider.rating}
                   </Text>
@@ -212,21 +214,21 @@ export default function HomeScreen() {
           
           <View className="flex-row space-x-4 mb-8">
             <TouchableOpacity className="flex-1 bg-emerald-50 rounded-2xl p-4 items-center">
-              <Text className="text-3xl mb-2">📅</Text>
+              <View className="w-8 h-8 bg-emerald-500 rounded-lg mb-2" />
               <Text className="text-emerald-700 font-medium text-center">
                 Book Session
               </Text>
             </TouchableOpacity>
             
             <TouchableOpacity className="flex-1 bg-blue-50 rounded-2xl p-4 items-center">
-              <Text className="text-3xl mb-2">💬</Text>
+              <View className="w-8 h-8 bg-blue-500 rounded-lg mb-2" />
               <Text className="text-blue-700 font-medium text-center">
                 Messages
               </Text>
             </TouchableOpacity>
             
             <TouchableOpacity className="flex-1 bg-purple-50 rounded-2xl p-4 items-center">
-              <Text className="text-3xl mb-2">📊</Text>
+              <View className="w-8 h-8 bg-purple-500 rounded-lg mb-2" />
               <Text className="text-purple-700 font-medium text-center">
                 Progress
               </Text>
@@ -258,27 +260,27 @@ export default function HomeScreen() {
       <View className="border-t border-gray-200 bg-white px-6 py-3">
         <View className="flex-row justify-between">
           <TouchableOpacity className="items-center py-2">
-            <Text className="text-2xl mb-1">📅</Text>
+            <View className="w-6 h-6 bg-emerald-500 rounded-lg mb-1" />
+            <Text className="text-emerald-600 text-xs font-medium">Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="items-center py-2">
+            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
+            <Text className="text-gray-500 text-xs">Discover</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="items-center py-2">
+            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
             <Text className="text-gray-500 text-xs">Booking</Text>
           </TouchableOpacity>
           <TouchableOpacity className="items-center py-2">
-            <Text className="text-2xl mb-1">💬</Text>
+            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
             <Text className="text-gray-500 text-xs">Message</Text>
           </TouchableOpacity>
           <TouchableOpacity className="items-center py-2">
-            <Text className="text-2xl mb-1">👤</Text>
+            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
             <Text className="text-gray-500 text-xs">Profile</Text>
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
-} className="text-2xl mb-1">🏠</Text>
-            <Text className="text-emerald-600 text-xs font-medium">Home</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="items-center py-2">
-            <Text className="text-2xl mb-1">🔍</Text>
-            <Text className="text-gray-500 text-xs">Discover</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="items-center py-2">
-            <Text
+}
