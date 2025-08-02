@@ -47,106 +47,130 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        className="flex-1"
+        contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.content}>
+        <View className="flex-1 px-6 pt-4">
           {/* Back Button */}
           <TouchableOpacity 
-            style={styles.backButton}
+            className="w-10 h-10 justify-center items-start mb-8"
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.backIcon}>←</Text>
+            <Text className="text-2xl text-gray-800 font-light">←</Text>
           </TouchableOpacity>
 
-          <View style={styles.formContainer}>
+          <View className="flex-1 justify-center">
             {/* Header */}
-            <View style={styles.header}>
-              <Text style={styles.title}>Email</Text>
+            <View className="mb-8">
+              <Text className="text-3xl font-semibold text-gray-900 mb-2">
+                Welcome back
+              </Text>
+              <Text className="text-base text-gray-600">
+                Sign in to your account
+              </Text>
             </View>
 
             {/* Form */}
-            <View style={styles.form}>
-              <AppInput
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Enter your email"
-                autoCapitalize="none"
-                keyboardType="email-address"
-                autoComplete="email"
-                textContentType="emailAddress"
-                style={styles.input}
-              />
+            <View className="space-y-6">
+              <View>
+                <Text className="text-base font-medium text-gray-900 mb-2">
+                  Email
+                </Text>
+                <AppInput
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="Enter your email"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                  textContentType="emailAddress"
+                  className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                />
+              </View>
               
-              <Text style={styles.label}>Password</Text>
-              <AppInput
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Password"
-                secureTextEntry
-                autoCapitalize="none"
-                autoComplete="password"
-                textContentType="password"
-                style={styles.input}
-              />
-            </View>
+              <View>
+                <Text className="text-base font-medium text-gray-900 mb-2">
+                  Password
+                </Text>
+                <AppInput
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="Enter your password"
+                  secureTextEntry
+                  autoCapitalize="none"
+                  autoComplete="password"
+                  textContentType="password"
+                  className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                />
+              </View>
 
-            {/* Remember Me & Forgot Password */}
-            <View style={styles.optionsRow}>
-              <TouchableOpacity 
-                style={styles.rememberContainer}
-                onPress={() => setRememberMe(!rememberMe)}
+              {/* Remember Me & Forgot Password */}
+              <View className="flex-row justify-between items-center">
+                <TouchableOpacity 
+                  className="flex-row items-center"
+                  onPress={() => setRememberMe(!rememberMe)}
+                >
+                  <View className={`w-5 h-5 rounded border-2 mr-2 ${
+                    rememberMe 
+                      ? 'bg-emerald-500 border-emerald-500' 
+                      : 'bg-white border-gray-300'
+                  }`} />
+                  <Text className="text-sm text-gray-600">Remember me</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity>
+                  <Text className="text-sm text-emerald-600 font-medium">
+                    Forgot password?
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Login Button */}
+              <AppButton
+                onPress={handleLogin}
+                loading={loading}
+                disabled={loading}
+                className="bg-emerald-500 rounded-xl py-4 items-center mt-6"
               >
-                <View style={[styles.checkbox, rememberMe && styles.checkboxActive]} />
-                <Text style={styles.rememberText}>Remember me</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity>
-                <Text style={styles.forgotText}>Forgot password?</Text>
-              </TouchableOpacity>
-            </View>
+                <Text className="text-white text-base font-semibold">
+                  {loading ? 'Signing in...' : 'Log in'}
+                </Text>
+              </AppButton>
 
-            {/* Login Button */}
-            <AppButton
-              onPress={handleLogin}
-              loading={loading}
-              disabled={loading}
-              style={styles.loginButton}
-            >
-              Log in
-            </AppButton>
+              {/* Divider */}
+              <View className="flex-row items-center my-6">
+                <View className="flex-1 h-px bg-gray-200" />
+                <Text className="mx-4 text-sm text-gray-500">Or continue with</Text>
+                <View className="flex-1 h-px bg-gray-200" />
+              </View>
 
-            {/* Divider */}
-            <View style={styles.dividerContainer}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>Or with</Text>
-              <View style={styles.dividerLine} />
-            </View>
-
-            {/* Social Login Buttons */}
-            <View style={styles.socialContainer}>
-              <TouchableOpacity style={styles.socialButton}>
-                <Text style={styles.socialIcon}>f</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton}>
-                <Text style={styles.socialIcon}>G</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton}>
-                <Text style={styles.socialIcon}>🍎</Text>
-              </TouchableOpacity>
+              {/* Social Login Buttons */}
+              <View className="flex-row justify-center space-x-4">
+                <TouchableOpacity className="w-14 h-14 rounded-full bg-gray-50 border border-gray-200 justify-center items-center">
+                  <Text className="text-xl font-semibold text-blue-600">f</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="w-14 h-14 rounded-full bg-gray-50 border border-gray-200 justify-center items-center">
+                  <Text className="text-xl font-semibold text-red-500">G</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="w-14 h-14 rounded-full bg-gray-50 border border-gray-200 justify-center items-center">
+                  <Text className="text-xl">🍎</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/* Sign Up Link */}
-            <View style={styles.linkContainer}>
+            <View className="items-center mt-8 mb-6">
               <TouchableOpacity
                 onPress={() => navigation.navigate('SignUp')}
                 disabled={loading}
               >
-                <Text style={styles.linkText}>
-                  Don't have an account? <Text style={styles.linkHighlight}>Sign Up</Text>
+                <Text className="text-base text-gray-600 text-center">
+                  Don't have an account?{' '}
+                  <Text className="text-emerald-600 font-semibold">Sign Up</Text>
                 </Text>
               </TouchableOpacity>
             </View>
@@ -156,150 +180,3 @@ export default function LoginScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  scrollContainer: {
-    flexGrow: 1,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 20,
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 40,
-  },
-  backIcon: {
-    fontSize: 24,
-    color: '#1F2937',
-    fontWeight: '300',
-  },
-  formContainer: {
-    flex: 1,
-  },
-  header: {
-    marginBottom: 32,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 8,
-  },
-  form: {
-    marginBottom: 24,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#1F2937',
-    marginBottom: 8,
-    marginTop: 20,
-  },
-  input: {
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    fontSize: 16,
-    color: '#1F2937',
-    marginBottom: 4,
-  },
-  optionsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  rememberContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: '#D1D5DB',
-    marginRight: 8,
-    backgroundColor: '#FFFFFF',
-  },
-  checkboxActive: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
-  },
-  rememberText: {
-    fontSize: 14,
-    color: '#6B7280',
-  },
-  forgotText: {
-    fontSize: 14,
-    color: '#6B7280',
-    fontWeight: '500',
-  },
-  loginButton: {
-    backgroundColor: '#10B981',
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#E5E7EB',
-  },
-  dividerText: {
-    marginHorizontal: 16,
-    fontSize: 14,
-    color: '#9CA3AF',
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-    marginBottom: 40,
-  },
-  socialButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  socialIcon: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  linkContainer: {
-    alignItems: 'center',
-    paddingBottom: 40,
-  },
-  linkText: {
-    fontSize: 16,
-    color: '#6B7280',
-    textAlign: 'center',
-  },
-  linkHighlight: {
-    color: '#10B981',
-    fontWeight: '600',
-  },
-});
