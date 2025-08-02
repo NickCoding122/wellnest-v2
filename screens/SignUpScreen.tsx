@@ -61,56 +61,56 @@ export default function SignUpScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView style={styles.container}>
       <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View className="flex-1 px-6 pt-4">
+        <View style={styles.content}>
           {/* Back Button */}
           <TouchableOpacity 
-            className="w-10 h-10 justify-center items-start mb-8"
+            style={styles.backButton}
             onPress={() => navigation.goBack()}
           >
-            <Text className="text-2xl text-gray-800 font-light">←</Text>
+            <Text style={styles.backIcon}>←</Text>
           </TouchableOpacity>
 
           {/* Header */}
-          <View className="mb-8">
-            <Text className="text-3xl font-semibold text-gray-900 mb-2">
-              Create your account
-            </Text>
-            <Text className="text-base text-gray-600">
-              Join our wellness community
-            </Text>
+          <View style={styles.header}>
+            <Text style={styles.title}>Create your account</Text>
+            <Text style={styles.subtitle}>Join our wellness community</Text>
           </View>
 
           {/* User Type Selector */}
-          <View className="bg-gray-100 rounded-xl p-1 mb-8">
-            <View className="flex-row">
+          <View style={styles.userTypeContainer}>
+            <View style={styles.userTypeSelector}>
               <TouchableOpacity
-                className={`flex-1 py-3 px-4 rounded-lg ${
-                  !isServiceProvider ? 'bg-emerald-500' : 'bg-transparent'
-                }`}
+                style={[
+                  styles.userTypeButton,
+                  !isServiceProvider && styles.userTypeButtonActive
+                ]}
                 onPress={() => setIsServiceProvider(false)}
               >
-                <Text className={`text-center font-medium ${
-                  !isServiceProvider ? 'text-white' : 'text-gray-600'
-                }`}>
+                <Text style={[
+                  styles.userTypeText,
+                  !isServiceProvider && styles.userTypeTextActive
+                ]}>
                   Join as a User
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                className={`flex-1 py-3 px-4 rounded-lg ${
-                  isServiceProvider ? 'bg-emerald-500' : 'bg-transparent'
-                }`}
+                style={[
+                  styles.userTypeButton,
+                  isServiceProvider && styles.userTypeButtonActive
+                ]}
                 onPress={() => setIsServiceProvider(true)}
               >
-                <Text className={`text-center font-medium ${
-                  isServiceProvider ? 'text-white' : 'text-gray-600'
-                }`}>
+                <Text style={[
+                  styles.userTypeText,
+                  isServiceProvider && styles.userTypeTextActive
+                ]}>
                   Offer Services
                 </Text>
               </TouchableOpacity>
@@ -119,68 +119,59 @@ export default function SignUpScreen() {
 
           {/* Cover Photo Section (for service providers) */}
           {isServiceProvider && (
-            <View className="bg-gray-50 rounded-2xl p-6 mb-6 flex-row justify-between items-center">
-              <View className="flex-1 items-center">
-                <View className="w-12 h-12 bg-gray-200 rounded-lg justify-center items-center mb-2">
-                  <View className="w-6 h-6 bg-gray-400 rounded-sm" />
+            <View style={styles.coverPhotoContainer}>
+              <View style={styles.coverPhotoContent}>
+                <View style={styles.photoIcon}>
+                  <View style={styles.photoIconPlaceholder} />
                 </View>
-                <Text className="text-base text-gray-500 font-medium">
-                  Cover Photo
-                </Text>
+                <Text style={styles.coverPhotoLabel}>Cover Photo</Text>
               </View>
-              <TouchableOpacity className="bg-white px-5 py-2 rounded-full border border-gray-200">
-                <Text className="text-sm text-gray-700 font-medium">Add</Text>
+              <TouchableOpacity style={styles.addPhotoButton}>
+                <Text style={styles.addPhotoText}>Add</Text>
               </TouchableOpacity>
             </View>
           )}
 
           {/* Form Fields */}
-          <View className="space-y-5">
+          <View style={styles.form}>
             {!isServiceProvider ? (
-              <View>
-                <Text className="text-base font-medium text-gray-900 mb-2">
-                  Full Name
-                </Text>
+              <View style={styles.inputGroup}>
+                <Text style={styles.label}>Full Name</Text>
                 <AppInput
                   value={fullName}
                   onChangeText={setFullName}
                   placeholder="Enter your name"
-                  className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                  style={styles.input}
                 />
               </View>
             ) : (
               <>
-                <View>
-                  <Text className="text-base font-medium text-gray-900 mb-2">
-                    Business Name
-                  </Text>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Business Name</Text>
                   <AppInput
                     value={businessName}
                     onChangeText={setBusinessName}
                     placeholder="Enter your business name"
-                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                    style={styles.input}
                   />
                 </View>
                 
-                <View>
-                  <Text className="text-base font-medium text-gray-900 mb-2">
-                    About Business
-                  </Text>
+                <View style={styles.inputGroup}>
+                  <Text style={styles.label}>About Business</Text>
                   <AppInput
                     value={businessDescription}
                     onChangeText={setBusinessDescription}
                     placeholder="Write about your business"
                     multiline
                     numberOfLines={4}
-                    className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900 h-24"
-                    style={{ textAlignVertical: 'top' }}
+                    style={[styles.input, styles.textArea]}
                   />
                 </View>
               </>
             )}
 
-            <View>
-              <Text className="text-base font-medium text-gray-900 mb-2">
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>
                 {isServiceProvider ? 'Business Email' : 'Email'}
               </Text>
               <AppInput
@@ -191,34 +182,30 @@ export default function SignUpScreen() {
                 keyboardType="email-address"
                 autoComplete="email"
                 textContentType="emailAddress"
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                style={styles.input}
               />
             </View>
 
-            <View>
-              <Text className="text-base font-medium text-gray-900 mb-2">
-                Phone Number
-              </Text>
-              <View className="flex-row space-x-3">
-                <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3 py-4">
-                  <View className="w-5 h-3 bg-blue-500 rounded-sm mr-2" />
-                  <Text className="text-base text-gray-900 font-medium mr-2">+61</Text>
-                  <Text className="text-xs text-gray-500">▼</Text>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Phone Number</Text>
+              <View style={styles.phoneContainer}>
+                <View style={styles.countryCode}>
+                  <View style={styles.flagPlaceholder} />
+                  <Text style={styles.countryCodeText}>+61</Text>
+                  <Text style={styles.dropdown}>▼</Text>
                 </View>
                 <AppInput
                   value={phone}
                   onChangeText={setPhone}
                   placeholder="000 000 0000"
                   keyboardType="phone-pad"
-                  className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                  style={[styles.input, styles.phoneInput]}
                 />
               </View>
             </View>
 
-            <View>
-              <Text className="text-base font-medium text-gray-900 mb-2">
-                Password
-              </Text>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Password</Text>
               <AppInput
                 value={password}
                 onChangeText={setPassword}
@@ -227,42 +214,36 @@ export default function SignUpScreen() {
                 autoCapitalize="none"
                 autoComplete="password-new"
                 textContentType="newPassword"
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                style={styles.input}
               />
             </View>
 
-            <View>
-              <Text className="text-base font-medium text-gray-900 mb-2">
-                Confirm Password
-              </Text>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Confirm Password</Text>
               <AppInput
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 placeholder="Enter confirm password"
                 secureTextEntry
                 autoCapitalize="none"
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-base text-gray-900"
+                style={styles.input}
               />
             </View>
           </View>
 
           {/* Terms and Conditions */}
-          <View className="flex-row items-start mt-6 mb-8">
+          <View style={styles.termsContainer}>
             <TouchableOpacity 
-              className="mt-0.5 mr-3"
+              style={styles.checkboxContainer}
               onPress={() => setAgreeToTerms(!agreeToTerms)}
             >
-              <View className={`w-5 h-5 rounded border-2 ${
-                agreeToTerms 
-                  ? 'bg-emerald-500 border-emerald-500' 
-                  : 'bg-white border-gray-300'
-              }`} />
+              <View style={[styles.checkbox, agreeToTerms && styles.checkboxActive]} />
             </TouchableOpacity>
-            <Text className="flex-1 text-sm text-gray-600 leading-5">
+            <Text style={styles.termsText}>
               I agree to the{' '}
-              <Text className="text-emerald-600 font-medium">Terms of Service</Text>
+              <Text style={styles.termsLink}>Terms of Service</Text>
               {' '}and{' '}
-              <Text className="text-emerald-600 font-medium">Privacy Policy</Text>.
+              <Text style={styles.termsLink}>Privacy Policy</Text>.
             </Text>
           </View>
 
@@ -271,26 +252,25 @@ export default function SignUpScreen() {
             onPress={handleSignUp}
             loading={loading}
             disabled={loading || !agreeToTerms}
-            className={`rounded-xl py-4 items-center mb-6 ${
-              loading || !agreeToTerms 
-                ? 'bg-gray-300' 
-                : 'bg-emerald-500'
-            }`}
+            style={[
+              styles.signUpButton,
+              (loading || !agreeToTerms) && styles.signUpButtonDisabled
+            ]}
           >
-            <Text className="text-white text-base font-semibold">
+            <Text style={styles.signUpButtonText}>
               {loading ? 'Creating account...' : 'Sign Up'}
             </Text>
           </AppButton>
 
           {/* Login Link */}
-          <View className="items-center mb-8">
+          <View style={styles.linkContainer}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Login')}
               disabled={loading}
             >
-              <Text className="text-base text-gray-600 text-center">
+              <Text style={styles.linkText}>
                 Already have an account?{' '}
-                <Text className="text-emerald-600 font-semibold">Log In</Text>
+                <Text style={styles.linkHighlight}>Log In</Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -299,3 +279,237 @@ export default function SignUpScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 16,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginBottom: 32,
+  },
+  backIcon: {
+    fontSize: 24,
+    color: '#1F2937',
+    fontWeight: '300',
+  },
+  header: {
+    marginBottom: 32,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    color: '#1F2937',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6B7280',
+  },
+  userTypeContainer: {
+    marginBottom: 32,
+  },
+  userTypeSelector: {
+    backgroundColor: '#F3F4F6',
+    borderRadius: 12,
+    padding: 4,
+    flexDirection: 'row',
+  },
+  userTypeButton: {
+    flex: 1,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  userTypeButtonActive: {
+    backgroundColor: '#10B981',
+  },
+  userTypeText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#6B7280',
+  },
+  userTypeTextActive: {
+    color: '#FFFFFF',
+  },
+  coverPhotoContainer: {
+    backgroundColor: '#F9FAFB',
+    borderRadius: 16,
+    padding: 24,
+    marginBottom: 24,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  coverPhotoContent: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  photoIcon: {
+    width: 48,
+    height: 48,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  photoIconPlaceholder: {
+    width: 24,
+    height: 24,
+    backgroundColor: '#9CA3AF',
+    borderRadius: 4,
+  },
+  coverPhotoLabel: {
+    fontSize: 16,
+    color: '#9CA3AF',
+    fontWeight: '500',
+  },
+  addPhotoButton: {
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+  },
+  addPhotoText: {
+    fontSize: 14,
+    color: '#1F2937',
+    fontWeight: '500',
+  },
+  form: {
+    marginBottom: 24,
+  },
+  inputGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1F2937',
+    marginBottom: 8,
+  },
+  input: {
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    fontSize: 16,
+    color: '#1F2937',
+  },
+  textArea: {
+    height: 96,
+    textAlignVertical: 'top',
+  },
+  phoneContainer: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  countryCode: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    gap: 8,
+  },
+  flagPlaceholder: {
+    width: 20,
+    height: 12,
+    backgroundColor: '#3B82F6',
+    borderRadius: 2,
+  },
+  countryCodeText: {
+    fontSize: 16,
+    color: '#1F2937',
+    fontWeight: '500',
+  },
+  dropdown: {
+    fontSize: 12,
+    color: '#6B7280',
+  },
+  phoneInput: {
+    flex: 1,
+  },
+  termsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 32,
+    gap: 12,
+  },
+  checkboxContainer: {
+    marginTop: 2,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#D1D5DB',
+    backgroundColor: '#FFFFFF',
+  },
+  checkboxActive: {
+    backgroundColor: '#10B981',
+    borderColor: '#10B981',
+  },
+  termsText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#6B7280',
+    lineHeight: 20,
+  },
+  termsLink: {
+    color: '#10B981',
+    fontWeight: '500',
+  },
+  signUpButton: {
+    backgroundColor: '#10B981',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  signUpButtonDisabled: {
+    backgroundColor: '#D1D5DB',
+  },
+  signUpButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  linkContainer: {
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  linkText: {
+    fontSize: 16,
+    color: '#6B7280',
+    textAlign: 'center',
+  },
+  linkHighlight: {
+    color: '#10B981',
+    fontWeight: '600',
+  },
+});
