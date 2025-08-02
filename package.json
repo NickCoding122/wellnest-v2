@@ -1,6 +1,6 @@
 {
   "name": "wellnest-v2",
-  "main": "expo/AppEntry.js",
+  "main": "node_modules/expo/AppEntry.js",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
