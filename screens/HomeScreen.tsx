@@ -9,11 +9,13 @@ import {
   Image,
   Alert 
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { signOut } from '../lib/auth';
 import { useAuth } from '../context/AuthContext';
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [currentLocation, setCurrentLocation] = useState('Sydney');
@@ -47,7 +49,8 @@ export default function HomeScreen() {
   };
 
   const handleCategoryPress = (categoryName: string) => {
-    Alert.alert('Category Selected', `You selected ${categoryName}`);
+    // Navigate to services screen with category filter
+    navigation.navigate('Services' as never, { category: categoryName } as never);
   };
 
   const handleProviderPress = (providerName: string) => {
@@ -55,7 +58,15 @@ export default function HomeScreen() {
   };
 
   const handleQuickAction = (actionName: string) => {
-    Alert.alert('Quick Action', `You selected ${actionName}`);
+    if (actionName === 'Book Session') {
+      navigation.navigate('Services' as never);
+    } else {
+      Alert.alert('Quick Action', `You selected ${actionName}`);
+    }
+  };
+
+  const handleBrowseServices = () => {
+    navigation.navigate('Services' as never);
   };
 
   const categories = [
@@ -138,7 +149,12 @@ export default function HomeScreen() {
 
         {/* Categories */}
         <View style={styles.categoriesSection}>
-          <Text style={styles.sectionTitle}>Browse Services</Text>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Browse Services</Text>
+            <TouchableOpacity onPress={handleBrowseServices}>
+              <Text style={styles.viewAllText}>View All</Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.categoriesGrid}>
             {categories.map((category) => (
               <TouchableOpacity 
@@ -158,19 +174,19 @@ export default function HomeScreen() {
         <View style={styles.bannerSection}>
           <TouchableOpacity 
             style={styles.banner}
-            onPress={() => Alert.alert('Premium', 'Learn more about premium services')}
+            onPress={handleBrowseServices}
             activeOpacity={0.8}
           >
             <View style={styles.bannerContent}>
               <View style={styles.badgeContainer}>
-                <Text style={styles.badgeText}>Premium</Text>
+                <Text style={styles.badgeText}>Explore</Text>
               </View>
               <Text style={styles.bannerTitle}>Professional Wellness</Text>
               <Text style={styles.bannerSubtitle}>
                 Connect with certified health professionals
               </Text>
               <View style={styles.bannerButton}>
-                <Text style={styles.bannerButtonText}>Explore</Text>
+                <Text style={styles.bannerButtonText}>Browse Services</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -180,7 +196,7 @@ export default function HomeScreen() {
         <View style={styles.providersSection}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Recommended for You</Text>
-            <TouchableOpacity onPress={() => Alert.alert('View All', 'Show all providers')}>
+            <TouchableOpacity onPress={handleBrowseServices}>
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
           </View>
@@ -291,7 +307,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
           <TouchableOpacity 
             style={styles.bottomNavItem}
-            onPress={() => Alert.alert('Search', 'Search feature coming soon')}
+            onPress={handleBrowseServices}
           >
             <View style={styles.bottomNavIcon} />
             <Text style={styles.bottomNavText}>Search</Text>
@@ -418,13 +434,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     paddingBottom: 40,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
   sectionTitle: {
     fontSize: 24,
     fontWeight: '400',
     fontFamily: 'Canela',
     color: '#004225',
-    marginBottom: 20,
     letterSpacing: -0.3,
+  },
+  viewAllText: {
+    color: '#004225',
+    fontWeight: '600',
+    fontSize: 16,
+    fontFamily: 'Canela',
   },
   categoriesGrid: {
     flexDirection: 'row',
@@ -520,18 +547,6 @@ const styles = StyleSheet.create({
   providersSection: {
     paddingHorizontal: 32,
     paddingBottom: 40,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  viewAllText: {
-    color: '#004225',
-    fontWeight: '600',
-    fontSize: 16,
-    fontFamily: 'Canela',
   },
   providersContent: {
     paddingRight: 32,
