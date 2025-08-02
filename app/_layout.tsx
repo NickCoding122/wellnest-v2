@@ -21,9 +21,38 @@ export const unstable_settings = {
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
+// Custom theme for Wellnest
+const WellnestTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#004225',
+    background: '#FAFAFA',
+    card: '#FFFFFF',
+    text: '#004225',
+    border: '#F4F1EB',
+    notification: '#DC2626',
+  },
+};
+
+const WellnestDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: '#059669',
+    background: '#1F2937',
+    card: '#374151',
+    text: '#F9FAFB',
+    border: '#4B5563',
+    notification: '#EF4444',
+  },
+};
+
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    // Add Canela font here when available
+    // Canela: require('../assets/fonts/Canela-Regular.ttf'),
     ...FontAwesome.font,
   });
 
@@ -49,10 +78,33 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <ThemeProvider value={colorScheme === 'dark' ? WellnestDarkTheme : WellnestTheme}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right',
+          animationDuration: 300,
+        }}
+      >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+        <Stack.Screen 
+          name="modal" 
+          options={{ 
+            presentation: 'modal',
+            animation: 'slide_from_bottom',
+            headerShown: true,
+            headerTitle: 'Settings',
+            headerStyle: {
+              backgroundColor: '#004225',
+            },
+            headerTintColor: '#FAFAFA',
+            headerTitleStyle: {
+              fontFamily: 'Canela',
+              fontSize: 20,
+              fontWeight: '400',
+            },
+          }} 
+        />
       </Stack>
     </ThemeProvider>
   );
