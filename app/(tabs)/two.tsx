@@ -1,4 +1,20 @@
-import { StyleSheet } from 'react-native';
+{/* Quick Actions */}
+        <View className="mt-8 mb-6">
+          <View className="flex-row space-x-4">
+            <View className="flex-1 bg-emerald-500 rounded-2xl p-4 items-center">
+              <View className="w-8 h-8 bg-white rounded-lg mb-2" />
+              <Text className="text-white font-medium text-center">
+                Book New Session
+              </Text>
+            </View>
+            
+            <View className="flex-1 bg-gray-100 rounded-2xl p-4 items-center">
+              <View className="w-8 h-8 bg-gray-500 rounded-lg mb-2" />
+              <Text className="text-gray-700 font-medium text-center">
+                View Progress
+              </Text>
+            </View>
+          import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
@@ -21,19 +37,19 @@ export default function TabTwoScreen() {
         {/* Quick Stats */}
         <View className="flex-row justify-between mb-8">
           <View className="bg-green-50 rounded-2xl p-4 flex-1 mr-2 items-center">
-            <Text className="text-2xl mb-1">✅</Text>
+            <View className="w-6 h-6 bg-green-500 rounded-lg mb-1" />
             <Text className="text-green-700 font-bold text-lg">12</Text>
             <Text className="text-green-600 text-xs text-center">Completed</Text>
           </View>
           
           <View className="bg-orange-50 rounded-2xl p-4 flex-1 mx-1 items-center">
-            <Text className="text-2xl mb-1">⏰</Text>
+            <View className="w-6 h-6 bg-orange-500 rounded-lg mb-1" />
             <Text className="text-orange-700 font-bold text-lg">3</Text>
             <Text className="text-orange-600 text-xs text-center">Upcoming</Text>
           </View>
           
           <View className="bg-purple-50 rounded-2xl p-4 flex-1 ml-2 items-center">
-            <Text className="text-2xl mb-1">⭐</Text>
+            <View className="w-6 h-6 bg-purple-500 rounded-lg mb-1" />
             <Text className="text-purple-700 font-bold text-lg">4.8</Text>
             <Text className="text-purple-600 text-xs text-center">Avg Rating</Text>
           </View>
@@ -64,8 +80,8 @@ export default function TabTwoScreen() {
             
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center">
-                <Text className="text-gray-500 text-sm mr-4">📅 Tomorrow, 2:00 PM</Text>
-                <Text className="text-gray-500 text-sm">📍 Online</Text>
+                <Text className="text-gray-500 text-sm mr-4">Tomorrow, 2:00 PM</Text>
+                <Text className="text-gray-500 text-sm">Online</Text>
               </View>
               <Text className="text-blue-600 font-medium text-sm">Join Call</Text>
             </View>
@@ -90,8 +106,8 @@ export default function TabTwoScreen() {
             
             <View className="flex-row items-center justify-between">
               <View className="flex-row items-center">
-                <Text className="text-gray-500 text-sm mr-4">📅 Friday, 9:00 AM</Text>
-                <Text className="text-gray-500 text-sm">📍 Gym</Text>
+                <Text className="text-gray-500 text-sm mr-4">Friday, 9:00 AM</Text>
+                <Text className="text-gray-500 text-sm">Gym</Text>
               </View>
               <Text className="text-gray-600 font-medium text-sm">Details</Text>
             </View>
@@ -137,14 +153,14 @@ export default function TabTwoScreen() {
         <View className="mt-8 mb-6">
           <View className="flex-row space-x-4">
             <View className="flex-1 bg-emerald-500 rounded-2xl p-4 items-center">
-              <Text className="text-2xl mb-2">📅</Text>
+              <View className="w-8 h-8 bg-white rounded-lg mb-2" />
               <Text className="text-white font-medium text-center">
                 Book New Session
               </Text>
             </View>
             
             <View className="flex-1 bg-gray-100 rounded-2xl p-4 items-center">
-              <Text className="text-2xl mb-2">📊</Text>
+              <View className="w-8 h-8 bg-gray-500 rounded-lg mb-2" />
               <Text className="text-gray-700 font-medium text-center">
                 View Progress
               </Text>
