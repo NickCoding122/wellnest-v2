@@ -2,9 +2,16 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HomeScreen from '../screens/HomeScreen';
+import ServicesScreen from '../screens/ServicesScreen';
+import ServiceDetailScreen from '../screens/ServiceDetailScreen';
+import BookingSuccessScreen from '../screens/BookingSuccessScreen';
+import { Service } from '../components/ServiceCard';
 
 export type AppStackParamList = {
   Home: undefined;
+  Services: undefined;
+  ServiceDetail: { service: Service };
+  BookingSuccess: { service: Service };
   Profile: undefined;
   BookingDetails: { bookingId: string };
   ProviderDetails: { providerId: string };
@@ -40,6 +47,28 @@ export default function AppStack() {
         component={HomeScreen}
         options={{
           gestureEnabled: false, // Disable swipe back on main home
+        }}
+      />
+      <Stack.Screen
+        name="Services"
+        component={ServicesScreen}
+        options={{
+          gestureEnabled: true,
+        }}
+      />
+      <Stack.Screen
+        name="ServiceDetail"
+        component={ServiceDetailScreen}
+        options={{
+          gestureEnabled: true,
+        }}
+      />
+      <Stack.Screen
+        name="BookingSuccess"
+        component={BookingSuccessScreen}
+        options={{
+          gestureEnabled: false, // Prevent swiping back from success screen
+          animation: 'slide_from_bottom',
         }}
       />
       {/* Future screens will be added here */}
