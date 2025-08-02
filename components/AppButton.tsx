@@ -12,7 +12,7 @@ import {
 interface AppButtonProps extends TouchableOpacityProps {
   children: React.ReactNode;
   loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
   size?: 'small' | 'medium' | 'large';
   fullWidth?: boolean;
   icon?: React.ReactNode;
@@ -58,6 +58,9 @@ export default function AppButton({
       case 'danger':
         baseStyle.push(styles.danger);
         break;
+      case 'ghost':
+        baseStyle.push(styles.ghost);
+        break;
       default:
         baseStyle.push(styles.primary);
     }
@@ -101,6 +104,9 @@ export default function AppButton({
       case 'danger':
         baseStyle.push(styles.dangerText);
         break;
+      case 'ghost':
+        baseStyle.push(styles.ghostText);
+        break;
       default:
         baseStyle.push(styles.primaryText);
     }
@@ -111,11 +117,12 @@ export default function AppButton({
   const getLoadingColor = () => {
     switch (variant) {
       case 'outline':
-        return '#10B981';
+      case 'ghost':
+        return '#004225';
       case 'secondary':
         return '#6B7280';
       default:
-        return '#FFFFFF';
+        return '#FAFAFA';
     }
   };
 
@@ -123,7 +130,7 @@ export default function AppButton({
     <TouchableOpacity
       style={[...getButtonStyle(), buttonStyle]}
       disabled={disabled || loading}
-      activeOpacity={0.8}
+      activeOpacity={0.7}
       {...props}
     >
       {loading ? (
@@ -148,55 +155,75 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 12,
+    borderRadius: 16,
     gap: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
   },
   
   // Size styles
   small: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
-    minHeight: 36,
+    paddingVertical: 10,
+    minHeight: 40,
   },
   medium: {
     paddingHorizontal: 20,
-    paddingVertical: 12,
-    minHeight: 48,
+    paddingVertical: 16,
+    minHeight: 52,
   },
   large: {
     paddingHorizontal: 24,
-    paddingVertical: 16,
-    minHeight: 56,
+    paddingVertical: 20,
+    minHeight: 60,
   },
   
   // Variant styles
   primary: {
-    backgroundColor: '#10B981',
-    borderWidth: 1,
-    borderColor: '#10B981',
+    backgroundColor: '#004225',
+    borderWidth: 2,
+    borderColor: '#004225',
+    shadowColor: '#004225',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    elevation: 6,
   },
   secondary: {
-    backgroundColor: '#F3F4F6',
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#F4F1EB',
+    borderWidth: 2,
+    borderColor: '#F4F1EB',
+    shadowColor: '#004225',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
   },
   outline: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: '#10B981',
+    borderColor: '#004225',
   },
   danger: {
-    backgroundColor: '#EF4444',
-    borderWidth: 1,
-    borderColor: '#EF4444',
+    backgroundColor: '#DC2626',
+    borderWidth: 2,
+    borderColor: '#DC2626',
+    shadowColor: '#DC2626',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  ghost: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   
   // Width styles
@@ -215,6 +242,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '600',
     textAlign: 'center',
+    fontFamily: 'Canela',
   },
   
   // Text size styles
@@ -230,15 +258,18 @@ const styles = StyleSheet.create({
   
   // Text variant styles
   primaryText: {
-    color: '#FFFFFF',
+    color: '#FAFAFA',
   },
   secondaryText: {
-    color: '#374151',
+    color: '#004225',
   },
   outlineText: {
-    color: '#10B981',
+    color: '#004225',
   },
   dangerText: {
-    color: '#FFFFFF',
+    color: '#FAFAFA',
+  },
+  ghostText: {
+    color: '#004225',
   },
 });
