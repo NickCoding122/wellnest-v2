@@ -5,7 +5,6 @@ import {
   Text, 
   ScrollView, 
   TouchableOpacity, 
-  TextInput,
   StyleSheet,
   Image 
 } from 'react-native';
@@ -31,10 +30,10 @@ export default function HomeScreen() {
   };
 
   const categories = [
-    { id: 1, name: 'Nutrition', icon: 'N', color: 'bg-orange-50' },
-    { id: 2, name: 'Personal Growth', icon: 'P', color: 'bg-purple-50' },
-    { id: 3, name: 'Health', icon: 'H', color: 'bg-red-50' },
-    { id: 4, name: 'Fitness', icon: 'F', color: 'bg-blue-50' },
+    { id: 1, name: 'Nutrition', icon: 'N', color: '#FFF7ED' },
+    { id: 2, name: 'Personal Growth', icon: 'P', color: '#F3E8FF' },
+    { id: 3, name: 'Health', icon: 'H', color: '#FEF2F2' },
+    { id: 4, name: 'Fitness', icon: 'F', color: '#EFF6FF' },
   ];
 
   const providers = [
@@ -65,141 +64,117 @@ export default function HomeScreen() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View className="bg-emerald-500 px-6 pt-4 pb-6">
-        <View className="flex-row justify-between items-start">
-          <View className="flex-row items-center">
-            <View className="w-8 h-8 justify-center items-center mr-3">
-              <View className="w-4 h-4 bg-white rounded-full" />
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <View style={styles.locationContainer}>
+            <View style={styles.locationIcon}>
+              <View style={styles.locationDot} />
             </View>
             <View>
-              <Text className="text-emerald-100 text-sm font-medium">
-                Current Location
-              </Text>
-              <View className="flex-row items-center">
-                <Text className="text-white text-lg font-semibold mr-2">
-                  {currentLocation}
-                </Text>
-                <Text className="text-emerald-200 text-sm">NSW, Aus</Text>
-                <Text className="text-emerald-200 text-xs ml-1">▼</Text>
+              <Text style={styles.locationLabel}>Current Location</Text>
+              <View style={styles.locationRow}>
+                <Text style={styles.locationText}>{currentLocation}</Text>
+                <Text style={styles.locationSubtext}>NSW, Aus</Text>
+                <Text style={styles.dropdown}>▼</Text>
               </View>
             </View>
           </View>
           
-          <TouchableOpacity className="w-10 h-10 bg-emerald-400 rounded-full justify-center items-center">
-            <View className="w-4 h-4 bg-white rounded-sm" />
+          <TouchableOpacity style={styles.notificationButton}>
+            <View style={styles.notificationIcon} />
           </TouchableOpacity>
         </View>
       </View>
 
       <ScrollView 
-        className="flex-1"
+        style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
         {/* Categories */}
-        <View className="px-6 pt-6">
+        <View style={styles.categoriesSection}>
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 24 }}
+            contentContainerStyle={styles.categoriesContent}
           >
             {categories.map((category, index) => (
               <TouchableOpacity 
                 key={category.id} 
-                className={`${category.color} rounded-2xl px-4 py-3 mr-3 min-w-[100px] items-center`}
+                style={[styles.categoryCard, { backgroundColor: category.color }]}
               >
-                <View className="w-8 h-8 bg-white rounded-full justify-center items-center mb-1">
-                  <Text className="text-gray-700 font-bold">{category.icon}</Text>
+                <View style={styles.categoryIcon}>
+                  <Text style={styles.categoryIconText}>{category.icon}</Text>
                 </View>
-                <Text className="text-gray-700 text-sm font-medium text-center">
-                  {category.name}
-                </Text>
+                <Text style={styles.categoryText}>{category.name}</Text>
               </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
 
         {/* Featured Banner */}
-        <View className="px-6 pt-8">
-          <View className="bg-gradient-to-r from-gray-800 to-gray-600 rounded-3xl p-6 relative overflow-hidden">
-            <View className="flex-row justify-between items-center">
-              <View className="flex-1">
-                <View className="bg-emerald-500 rounded-full px-3 py-1 self-start mb-3">
-                  <Text className="text-white text-xs font-semibold">
-                    Best Seller
-                  </Text>
-                </View>
-                <Text className="text-white text-xl font-bold mb-1">
-                  Sports & Fitness
-                </Text>
-                <Text className="text-gray-300 text-sm">
-                  Personal training sessions
-                </Text>
+        <View style={styles.bannerSection}>
+          <View style={styles.banner}>
+            <View style={styles.bannerContent}>
+              <View style={styles.bestSellerBadge}>
+                <Text style={styles.bestSellerText}>Best Seller</Text>
               </View>
-              <View className="ml-4">
-                <View className="w-12 h-12 bg-orange-500 rounded-full" />
-              </View>
+              <Text style={styles.bannerTitle}>Sports & Fitness</Text>
+              <Text style={styles.bannerSubtitle}>Personal training sessions</Text>
             </View>
+            <View style={styles.bannerImage} />
           </View>
           
           {/* Pagination Dots */}
-          <View className="flex-row justify-center mt-4 space-x-2">
-            <View className="w-2 h-2 bg-emerald-500 rounded-full" />
-            <View className="w-2 h-2 bg-gray-300 rounded-full" />
-            <View className="w-2 h-2 bg-gray-300 rounded-full" />
+          <View style={styles.pagination}>
+            <View style={[styles.dot, styles.activeDot]} />
+            <View style={styles.dot} />
+            <View style={styles.dot} />
           </View>
         </View>
 
         {/* Popular Near Me Section */}
-        <View className="px-6 pt-8">
-          <View className="flex-row justify-between items-center mb-6">
-            <Text className="text-xl font-bold text-gray-900">
-              Popular Near Me
-            </Text>
+        <View style={styles.providersSection}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Popular Near Me</Text>
             <TouchableOpacity>
-              <Text className="text-emerald-600 font-medium">View All</Text>
+              <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
           </View>
 
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 24 }}
+            contentContainerStyle={styles.providersContent}
           >
             {providers.map((provider) => (
               <TouchableOpacity 
                 key={provider.id} 
-                className="bg-white rounded-2xl border border-gray-100 p-4 mr-4 w-48 shadow-sm"
+                style={styles.providerCard}
               >
-                <View className="items-center mb-4">
+                <View style={styles.providerImageContainer}>
                   {provider.image ? (
                     <Image 
                       source={{ uri: provider.image }} 
-                      className="w-16 h-16 rounded-full"
+                      style={styles.providerImage}
                     />
                   ) : (
-                    <View className="w-16 h-16 bg-gray-200 rounded-full justify-center items-center">
-                      <View className="w-8 h-8 bg-gray-400 rounded-full" />
+                    <View style={styles.providerImagePlaceholder}>
+                      <View style={styles.providerImageIcon} />
                     </View>
                   )}
                 </View>
                 
-                <Text className="text-gray-900 font-semibold text-center mb-1" numberOfLines={1}>
+                <Text style={styles.providerName} numberOfLines={1}>
                   {provider.name}
                 </Text>
-                <Text className="text-gray-600 text-sm text-center mb-3">
-                  {provider.service}
-                </Text>
+                <Text style={styles.providerService}>{provider.service}</Text>
                 
-                <View className="flex-row justify-center items-center">
-                  <View className="w-3 h-3 bg-yellow-500 rounded-sm mr-1" />
-                  <Text className="text-gray-700 text-sm font-medium mr-1">
-                    {provider.rating}
-                  </Text>
-                  <Text className="text-gray-500 text-xs">
-                    ({provider.reviews})
-                  </Text>
+                <View style={styles.ratingContainer}>
+                  <View style={styles.starIcon} />
+                  <Text style={styles.rating}>{provider.rating}</Text>
+                  <Text style={styles.reviews}>({provider.reviews})</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -207,48 +182,40 @@ export default function HomeScreen() {
         </View>
 
         {/* Quick Actions */}
-        <View className="px-6 pt-8">
-          <Text className="text-xl font-bold text-gray-900 mb-6">
-            Quick Actions
-          </Text>
+        <View style={styles.quickActionsSection}>
+          <Text style={styles.sectionTitle}>Quick Actions</Text>
           
-          <View className="flex-row space-x-4 mb-8">
-            <TouchableOpacity className="flex-1 bg-emerald-50 rounded-2xl p-4 items-center">
-              <View className="w-8 h-8 bg-emerald-500 rounded-lg mb-2" />
-              <Text className="text-emerald-700 font-medium text-center">
-                Book Session
-              </Text>
+          <View style={styles.quickActionsGrid}>
+            <TouchableOpacity style={[styles.quickActionCard, styles.quickActionPrimary]}>
+              <View style={styles.quickActionIcon} />
+              <Text style={styles.quickActionTextPrimary}>Book Session</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity className="flex-1 bg-blue-50 rounded-2xl p-4 items-center">
-              <View className="w-8 h-8 bg-blue-500 rounded-lg mb-2" />
-              <Text className="text-blue-700 font-medium text-center">
-                Messages
-              </Text>
+            <TouchableOpacity style={[styles.quickActionCard, styles.quickActionSecondary]}>
+              <View style={styles.quickActionIcon} />
+              <Text style={styles.quickActionTextSecondary}>Messages</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity className="flex-1 bg-purple-50 rounded-2xl p-4 items-center">
-              <View className="w-8 h-8 bg-purple-500 rounded-lg mb-2" />
-              <Text className="text-purple-700 font-medium text-center">
-                Progress
-              </Text>
+            <TouchableOpacity style={[styles.quickActionCard, styles.quickActionTertiary]}>
+              <View style={styles.quickActionIcon} />
+              <Text style={styles.quickActionTextTertiary}>Progress</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* User Info & Logout (Debug) */}
-        <View className="px-6 pb-8">
-          <View className="bg-gray-50 rounded-2xl p-4">
-            <Text className="text-gray-600 text-sm mb-3">
+        <View style={styles.debugSection}>
+          <View style={styles.debugCard}>
+            <Text style={styles.debugText}>
               Welcome, {user?.email?.split('@')[0]}
             </Text>
             <AppButton
               onPress={handleLogout}
               loading={loading}
               disabled={loading}
-              className="bg-red-500 rounded-xl py-3 items-center"
+              style={styles.logoutButton}
             >
-              <Text className="text-white font-medium">
+              <Text style={styles.logoutButtonText}>
                 {loading ? 'Signing out...' : 'Log Out'}
               </Text>
             </AppButton>
@@ -257,30 +224,401 @@ export default function HomeScreen() {
       </ScrollView>
 
       {/* Bottom Navigation Placeholder */}
-      <View className="border-t border-gray-200 bg-white px-6 py-3">
-        <View className="flex-row justify-between">
-          <TouchableOpacity className="items-center py-2">
-            <View className="w-6 h-6 bg-emerald-500 rounded-lg mb-1" />
-            <Text className="text-emerald-600 text-xs font-medium">Home</Text>
+      <View style={styles.bottomNav}>
+        <View style={styles.bottomNavContent}>
+          <TouchableOpacity style={styles.bottomNavItem}>
+            <View style={[styles.bottomNavIcon, styles.bottomNavIconActive]} />
+            <Text style={styles.bottomNavTextActive}>Home</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center py-2">
-            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
-            <Text className="text-gray-500 text-xs">Discover</Text>
+          <TouchableOpacity style={styles.bottomNavItem}>
+            <View style={styles.bottomNavIcon} />
+            <Text style={styles.bottomNavText}>Discover</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center py-2">
-            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
-            <Text className="text-gray-500 text-xs">Booking</Text>
+          <TouchableOpacity style={styles.bottomNavItem}>
+            <View style={styles.bottomNavIcon} />
+            <Text style={styles.bottomNavText}>Booking</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center py-2">
-            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
-            <Text className="text-gray-500 text-xs">Message</Text>
+          <TouchableOpacity style={styles.bottomNavItem}>
+            <View style={styles.bottomNavIcon} />
+            <Text style={styles.bottomNavText}>Message</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="items-center py-2">
-            <View className="w-6 h-6 bg-gray-400 rounded-lg mb-1" />
-            <Text className="text-gray-500 text-xs">Profile</Text>
+          <TouchableOpacity style={styles.bottomNavItem}>
+            <View style={styles.bottomNavIcon} />
+            <Text style={styles.bottomNavText}>Profile</Text>
           </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  header: {
+    backgroundColor: '#10B981',
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    paddingBottom: 24,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  locationIcon: {
+    width: 32,
+    height: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  locationDot: {
+    width: 16,
+    height: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+  },
+  locationLabel: {
+    color: '#A7F3D0',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  locationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  locationText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '600',
+    marginRight: 8,
+  },
+  locationSubtext: {
+    color: '#A7F3D0',
+    fontSize: 14,
+  },
+  dropdown: {
+    color: '#A7F3D0',
+    fontSize: 12,
+    marginLeft: 4,
+  },
+  notificationButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#059669',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationIcon: {
+    width: 16,
+    height: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 4,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  categoriesSection: {
+    paddingHorizontal: 24,
+    paddingTop: 24,
+  },
+  categoriesContent: {
+    paddingRight: 24,
+  },
+  categoryCard: {
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginRight: 12,
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  categoryIcon: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  categoryIconText: {
+    color: '#374151',
+    fontWeight: 'bold',
+  },
+  categoryText: {
+    color: '#374151',
+    fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  bannerSection: {
+    paddingHorizontal: 24,
+    paddingTop: 32,
+  },
+  banner: {
+    backgroundColor: '#374151',
+    borderRadius: 24,
+    padding: 24,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  bannerContent: {
+    flex: 1,
+  },
+  bestSellerBadge: {
+    backgroundColor: '#10B981',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    alignSelf: 'flex-start',
+    marginBottom: 12,
+  },
+  bestSellerText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  bannerTitle: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  bannerSubtitle: {
+    color: '#D1D5DB',
+    fontSize: 14,
+  },
+  bannerImage: {
+    width: 48,
+    height: 48,
+    backgroundColor: '#F97316',
+    borderRadius: 24,
+    marginLeft: 16,
+  },
+  pagination: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 16,
+    gap: 8,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    backgroundColor: '#D1D5DB',
+    borderRadius: 4,
+  },
+  activeDot: {
+    backgroundColor: '#10B981',
+  },
+  providersSection: {
+    paddingHorizontal: 24,
+    paddingTop: 32,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1F2937',
+  },
+  viewAllText: {
+    color: '#10B981',
+    fontWeight: '500',
+  },
+  providersContent: {
+    paddingRight: 24,
+  },
+  providerCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
+    padding: 16,
+    marginRight: 16,
+    width: 192,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
+  },
+  providerImageContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  providerImage: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+  },
+  providerImagePlaceholder: {
+    width: 64,
+    height: 64,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  providerImageIcon: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#9CA3AF',
+    borderRadius: 16,
+  },
+  providerName: {
+    color: '#1F2937',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  providerService: {
+    color: '#6B7280',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  starIcon: {
+    width: 12,
+    height: 12,
+    backgroundColor: '#F59E0B',
+    borderRadius: 2,
+    marginRight: 4,
+  },
+  rating: {
+    color: '#374151',
+    fontSize: 14,
+    fontWeight: '500',
+    marginRight: 4,
+  },
+  reviews: {
+    color: '#9CA3AF',
+    fontSize: 12,
+  },
+  quickActionsSection: {
+    paddingHorizontal: 24,
+    paddingTop: 32,
+  },
+  quickActionsGrid: {
+    flexDirection: 'row',
+    gap: 16,
+    marginTop: 24,
+  },
+  quickActionCard: {
+    flex: 1,
+    borderRadius: 16,
+    padding: 16,
+    alignItems: 'center',
+  },
+  quickActionPrimary: {
+    backgroundColor: '#ECFDF5',
+  },
+  quickActionSecondary: {
+    backgroundColor: '#EFF6FF',
+  },
+  quickActionTertiary: {
+    backgroundColor: '#F3E8FF',
+  },
+  quickActionIcon: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#10B981',
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  quickActionTextPrimary: {
+    color: '#065F46',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  quickActionTextSecondary: {
+    color: '#1E40AF',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  quickActionTextTertiary: {
+    color: '#7C3AED',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  debugSection: {
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 32,
+  },
+  debugCard: {
+    backgroundColor: '#F9FAFB',
+    borderRadius: 16,
+    padding: 16,
+  },
+  debugText: {
+    color: '#6B7280',
+    fontSize: 14,
+    marginBottom: 12,
+  },
+  logoutButton: {
+    backgroundColor: '#EF4444',
+    borderRadius: 12,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '500',
+  },
+  bottomNav: {
+    borderTopWidth: 1,
+    borderTopColor: '#E5E7EB',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+  },
+  bottomNavContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  bottomNavItem: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  bottomNavIcon: {
+    width: 24,
+    height: 24,
+    backgroundColor: '#9CA3AF',
+    borderRadius: 6,
+    marginBottom: 4,
+  },
+  bottomNavIconActive: {
+    backgroundColor: '#10B981',
+  },
+  bottomNavText: {
+    color: '#9CA3AF',
+    fontSize: 12,
+  },
+  bottomNavTextActive: {
+    color: '#10B981',
+    fontSize: 12,
+    fontWeight: '500',
+  },
+});
