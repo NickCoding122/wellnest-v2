@@ -20,7 +20,7 @@ export default function TabOneScreen() {
       <View className="flex-1 px-6 pt-8">
         {/* Search Bar */}
         <View className="bg-gray-50 rounded-2xl px-4 py-4 mb-6 flex-row items-center">
-          <Text className="text-gray-400 text-lg mr-3">🔍</Text>
+          <View className="w-5 h-5 bg-gray-400 rounded-full mr-3" />
           <Text className="text-gray-500 text-base">
             Search for services, providers...
           </Text>
@@ -33,22 +33,22 @@ export default function TabOneScreen() {
         
         <View className="flex-row flex-wrap justify-between mb-8">
           <View className="bg-orange-50 rounded-2xl p-4 mb-4 w-[48%] items-center">
-            <Text className="text-3xl mb-2">🥗</Text>
+            <View className="w-8 h-8 bg-orange-500 rounded-lg mb-2" />
             <Text className="text-gray-700 font-medium">Nutrition</Text>
           </View>
           
           <View className="bg-purple-50 rounded-2xl p-4 mb-4 w-[48%] items-center">
-            <Text className="text-3xl mb-2">🧠</Text>
+            <View className="w-8 h-8 bg-purple-500 rounded-lg mb-2" />
             <Text className="text-gray-700 font-medium">Mental Health</Text>
           </View>
           
           <View className="bg-blue-50 rounded-2xl p-4 mb-4 w-[48%] items-center">
-            <Text className="text-3xl mb-2">💪</Text>
+            <View className="w-8 h-8 bg-blue-500 rounded-lg mb-2" />
             <Text className="text-gray-700 font-medium">Fitness</Text>
           </View>
           
           <View className="bg-pink-50 rounded-2xl p-4 mb-4 w-[48%] items-center">
-            <Text className="text-3xl mb-2">💆</Text>
+            <View className="w-8 h-8 bg-pink-500 rounded-lg mb-2" />
             <Text className="text-gray-700 font-medium">Beauty</Text>
           </View>
         </View>
@@ -80,22 +80,22 @@ export default function TabOneScreen() {
         <View className="space-y-3">
           <View className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center">
             <View className="w-12 h-12 bg-gray-200 rounded-full justify-center items-center mr-4">
-              <Text className="text-lg">👤</Text>
+              <View className="w-6 h-6 bg-gray-400 rounded-full" />
             </View>
             <View className="flex-1">
               <Text className="text-gray-900 font-semibold">Dr. Sarah Johnson</Text>
-              <Text className="text-gray-600 text-sm">Nutritionist • 4.9 ⭐</Text>
+              <Text className="text-gray-600 text-sm">Nutritionist • 4.9 ★</Text>
             </View>
             <Text className="text-emerald-600 font-medium">View</Text>
           </View>
           
           <View className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center">
             <View className="w-12 h-12 bg-gray-200 rounded-full justify-center items-center mr-4">
-              <Text className="text-lg">👤</Text>
+              <View className="w-6 h-6 bg-gray-400 rounded-full" />
             </View>
             <View className="flex-1">
               <Text className="text-gray-900 font-semibold">Mike Chen</Text>
-              <Text className="text-gray-600 text-sm">Personal Trainer • 4.8 ⭐</Text>
+              <Text className="text-gray-600 text-sm">Personal Trainer • 4.8 ★</Text>
             </View>
             <Text className="text-emerald-600 font-medium">View</Text>
           </View>
