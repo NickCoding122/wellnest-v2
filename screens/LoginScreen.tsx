@@ -46,63 +46,82 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-gray-50 dark:bg-gray-900">
       <ScrollView
-        contentContainerClassName="flex-grow justify-center items-center px-6 py-12"
+        contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <View className="w-full max-w-md items-center">
-          <Image
-            source={require('../assets/images/icon.png')}
-            className="w-24 h-24 mb-6"
-          />
-          <Text className="text-3xl font-bold text-center">
-            Welcome to Wellnest
-          </Text>
-          <Text className="mt-2 mb-8 text-xl font-semibold text-center">
-            Welcome Back
-          </Text>
+        <View className="flex-1 justify-center items-center px-6 py-8">
+          <View className="w-full max-w-sm space-y-8">
+            {/* Logo and Header */}
+            <View className="items-center space-y-4">
+              <View className="w-20 h-20 bg-blue-100 rounded-2xl items-center justify-center shadow-sm">
+                <View className="w-12 h-12 bg-blue-500 rounded-xl" />
+              </View>
+              <View className="space-y-2">
+                <Text className="text-3xl font-bold text-gray-900 dark:text-white text-center">
+                  Welcome Back
+                </Text>
+                <Text className="text-base text-gray-600 dark:text-gray-400 text-center">
+                  Sign in to your Wellnest account
+                </Text>
+              </View>
+            </View>
 
-          <View className="w-full space-y-4">
-            <AppInput
-              label="Email"
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
+            {/* Form */}
+            <View className="space-y-4">
+              <AppInput
+                label="Email Address"
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter your email"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                autoComplete="email"
+                textContentType="emailAddress"
+              />
+              <AppInput
+                label="Password"
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Enter your password"
+                secureTextEntry
+                autoCapitalize="none"
+                autoComplete="password"
+                textContentType="password"
+              />
+            </View>
+
+            {/* Login Button */}
+            <AppButton
+              onPress={handleLogin}
+              loading={loading}
+              disabled={loading}
               className="w-full"
-            />
-            <AppInput
-              label="Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-              className="w-full"
-            />
+              bgColor="bg-blue-500"
+            >
+              Sign In
+            </AppButton>
+
+            {/* Sign Up Link */}
+            <View className="items-center pt-4">
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SignUp')}
+                disabled={loading}
+                className="py-2"
+              >
+                <Text className="text-base text-gray-600 dark:text-gray-400 text-center">
+                  Don't have an account?{' '}
+                  <Text className="text-blue-600 dark:text-blue-400 font-medium">
+                    Sign up
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <AppButton
-            onPress={handleLogin}
-            loading={loading}
-            disabled={loading}
-            className="w-full mt-6"
-          >
-            Log In
-          </AppButton>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SignUp')}
-            disabled={loading}
-            className="mt-6"
-          >
-            <Text className="text-center text-base text-blue-600">
-              Don't have an account? Sign up
-            </Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
