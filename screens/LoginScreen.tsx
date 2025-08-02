@@ -12,7 +12,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-import AppButton from '../components/AppButton';
 import { auth } from '../lib/firebase';
 import { validateEmail, showToast } from '@/utils';
 import { AuthStackParamList } from '../navigation/AuthStack';
@@ -56,120 +55,86 @@ export default function LoginScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.content}>
-          {/* Back Button */}
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.backIcon}>←</Text>
-          </TouchableOpacity>
+          {/* Header */}
+          <View style={styles.header}>
+            <Text style={styles.title}>Welcome back</Text>
+            <Text style={styles.subtitle}>Sign in to your account</Text>
+          </View>
 
-          <View style={styles.formContainer}>
-            {/* Header */}
-            <View style={styles.header}>
-              <Text style={styles.title}>Welcome back</Text>
-              <Text style={styles.subtitle}>Sign in to your account</Text>
+          {/* Form */}
+          <View style={styles.form}>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter your email"
+                placeholderTextColor="#9CA3AF"
+                autoCapitalize="none"
+                keyboardType="email-address"
+                autoComplete="email"
+                textContentType="emailAddress"
+                style={styles.input}
+              />
             </View>
-
-            {/* Form */}
-            <View style={styles.form}>
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Email</Text>
+            
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Password</Text>
+              <View style={styles.passwordContainer}>
                 <TextInput
-                  value={email}
-                  onChangeText={setEmail}
-                  placeholder="Enter your email"
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="Enter your password"
                   placeholderTextColor="#9CA3AF"
+                  secureTextEntry={!showPassword}
                   autoCapitalize="none"
-                  keyboardType="email-address"
-                  autoComplete="email"
-                  textContentType="emailAddress"
-                  style={styles.input}
+                  autoComplete="password"
+                  textContentType="password"
+                  style={styles.passwordInput}
                 />
-              </View>
-              
-              <View style={styles.inputGroup}>
-                <Text style={styles.label}>Password</Text>
-                <View style={styles.passwordContainer}>
-                  <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    placeholder="Enter your password"
-                    placeholderTextColor="#9CA3AF"
-                    secureTextEntry={!showPassword}
-                    autoCapitalize="none"
-                    autoComplete="password"
-                    textContentType="password"
-                    style={styles.passwordInput}
-                  />
-                  <TouchableOpacity 
-                    style={styles.eyeButton}
-                    onPress={() => setShowPassword(!showPassword)}
-                  >
-                    <View style={[styles.eyeIcon, showPassword && styles.eyeIconOpen]} />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              {/* Remember Me & Forgot Password */}
-              <View style={styles.optionsRow}>
                 <TouchableOpacity 
-                  style={styles.rememberContainer}
-                  onPress={() => setRememberMe(!rememberMe)}
+                  style={styles.eyeButton}
+                  onPress={() => setShowPassword(!showPassword)}
                 >
-                  <View style={[styles.checkbox, rememberMe && styles.checkboxActive]} />
-                  <Text style={styles.rememberText}>Remember me</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity>
-                  <Text style={styles.forgotText}>Forgot password?</Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* Login Button */}
-              <TouchableOpacity
-                onPress={handleLogin}
-                disabled={loading}
-                style={[styles.loginButton, loading && styles.loginButtonDisabled]}
-              >
-                <Text style={styles.loginButtonText}>
-                  {loading ? 'Signing in...' : 'Log in'}
-                </Text>
-              </TouchableOpacity>
-
-              {/* Divider */}
-              <View style={styles.dividerContainer}>
-                <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>Or continue with</Text>
-                <View style={styles.dividerLine} />
-              </View>
-
-              {/* Social Login Buttons */}
-              <View style={styles.socialContainer}>
-                <TouchableOpacity style={styles.socialButton}>
-                  <Text style={styles.socialIconFacebook}>f</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
-                  <Text style={styles.socialIconGoogle}>G</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.socialButton}>
-                  <View style={styles.socialIconApple} />
+                  <View style={[styles.eyeIcon, showPassword && styles.eyeIconOpen]} />
                 </TouchableOpacity>
               </View>
             </View>
 
-            {/* Sign Up Link */}
-            <View style={styles.linkContainer}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('SignUp')}
-                disabled={loading}
+            {/* Remember Me */}
+            <View style={styles.optionsRow}>
+              <TouchableOpacity 
+                style={styles.rememberContainer}
+                onPress={() => setRememberMe(!rememberMe)}
               >
-                <Text style={styles.linkText}>
-                  Don't have an account?{' '}
-                  <Text style={styles.linkHighlight}>Sign Up</Text>
-                </Text>
+                <View style={[styles.checkbox, rememberMe && styles.checkboxActive]} />
+                <Text style={styles.rememberText}>Remember me</Text>
               </TouchableOpacity>
             </View>
+
+            {/* Login Button */}
+            <TouchableOpacity
+              onPress={handleLogin}
+              disabled={loading}
+              style={[styles.loginButton, loading && styles.loginButtonDisabled]}
+            >
+              <Text style={styles.loginButtonText}>
+                {loading ? 'Signing in...' : 'Log in'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Sign Up Link */}
+          <View style={styles.linkContainer}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SignUp')}
+              disabled={loading}
+            >
+              <Text style={styles.linkText}>
+                Don't have an account?{' '}
+                <Text style={styles.linkHighlight}>Sign Up</Text>
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -180,153 +145,154 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FEFEFE',
+    backgroundColor: '#FAFAFA',
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
+    paddingTop: 60,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 16,
-  },
-  backButton: {
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    marginBottom: 32,
-  },
-  backIcon: {
-    fontSize: 24,
-    color: '#1F2937',
-    fontWeight: '300',
-  },
-  formContainer: {
-    flex: 1,
+    paddingHorizontal: 32,
     justifyContent: 'center',
   },
   header: {
-    marginBottom: 40,
+    marginBottom: 48,
+    alignItems: 'center',
   },
   title: {
-    fontSize: 32,
-    fontWeight: '700',
-    color: '#1F2937',
-    marginBottom: 8,
+    fontSize: 36,
+    fontFamily: 'Canela',
+    fontWeight: '400',
+    color: '#004225',
+    marginBottom: 12,
+    textAlign: 'center',
     letterSpacing: -0.5,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#6B7280',
     fontWeight: '400',
+    textAlign: 'center',
   },
   form: {
     marginBottom: 32,
   },
   inputGroup: {
-    marginBottom: 24,
+    marginBottom: 28,
   },
   label: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 8,
+    color: '#004225',
+    marginBottom: 12,
+    fontFamily: 'Canela',
   },
   input: {
     backgroundColor: '#FFFFFF',
-    borderWidth: 1.5,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    borderWidth: 2,
+    borderColor: '#F4F1EB',
+    borderRadius: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 18,
     fontSize: 16,
-    color: '#1F2937',
+    color: '#004225',
     fontWeight: '400',
+    shadowColor: '#004225',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
   },
   passwordContainer: {
     position: 'relative',
   },
   passwordInput: {
     backgroundColor: '#FFFFFF',
-    borderWidth: 1.5,
-    borderColor: '#E5E7EB',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    paddingRight: 50,
+    borderWidth: 2,
+    borderColor: '#F4F1EB',
+    borderRadius: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 18,
+    paddingRight: 60,
     fontSize: 16,
-    color: '#1F2937',
+    color: '#004225',
     fontWeight: '400',
+    shadowColor: '#004225',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
   },
   eyeButton: {
     position: 'absolute',
-    right: 16,
-    top: 16,
-    width: 24,
-    height: 24,
+    right: 20,
+    top: 18,
+    width: 28,
+    height: 28,
     justifyContent: 'center',
     alignItems: 'center',
   },
   eyeIcon: {
-    width: 20,
-    height: 12,
+    width: 24,
+    height: 14,
     backgroundColor: '#9CA3AF',
-    borderRadius: 10,
+    borderRadius: 12,
   },
   eyeIconOpen: {
-    backgroundColor: '#14532D',
+    backgroundColor: '#004225',
   },
   optionsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 40,
   },
   rememberContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
+    width: 22,
+    height: 22,
+    borderRadius: 6,
     borderWidth: 2,
     borderColor: '#D1D5DB',
-    marginRight: 8,
+    marginRight: 12,
     backgroundColor: '#FFFFFF',
   },
   checkboxActive: {
-    backgroundColor: '#14532D',
-    borderColor: '#14532D',
+    backgroundColor: '#004225',
+    borderColor: '#004225',
   },
   rememberText: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#6B7280',
-    fontWeight: '400',
-  },
-  forgotText: {
-    fontSize: 14,
-    color: '#14532D',
-    fontWeight: '600',
+    fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: '#14532D',
-    borderRadius: 12,
-    paddingVertical: 16,
+    backgroundColor: '#004225',
+    borderRadius: 16,
+    paddingVertical: 20,
     alignItems: 'center',
-    marginBottom: 32,
-    shadowColor: '#14532D',
+    marginBottom: 40,
+    shadowColor: '#004225',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 8,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 8,
   },
   loginButtonDisabled: {
     backgroundColor: '#9CA3AF',
@@ -334,68 +300,14 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   loginButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+    color: '#FAFAFA',
+    fontSize: 18,
     fontWeight: '600',
-  },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 32,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: '#E5E7EB',
-  },
-  dividerText: {
-    marginHorizontal: 16,
-    fontSize: 14,
-    color: '#9CA3AF',
-    fontWeight: '500',
-  },
-  socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-  },
-  socialButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1.5,
-    borderColor: '#E5E7EB',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  socialIconFacebook: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#1877F2',
-  },
-  socialIconGoogle: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#EA4335',
-  },
-  socialIconApple: {
-    width: 24,
-    height: 24,
-    backgroundColor: '#000000',
-    borderRadius: 6,
+    fontFamily: 'Canela',
   },
   linkContainer: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 40,
   },
   linkText: {
     fontSize: 16,
@@ -404,7 +316,8 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   linkHighlight: {
-    color: '#14532D',
+    color: '#004225',
     fontWeight: '600',
+    fontFamily: 'Canela',
   },
 });
