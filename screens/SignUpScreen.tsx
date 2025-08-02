@@ -122,7 +122,7 @@ export default function SignUpScreen() {
             <View className="bg-gray-50 rounded-2xl p-6 mb-6 flex-row justify-between items-center">
               <View className="flex-1 items-center">
                 <View className="w-12 h-12 bg-gray-200 rounded-lg justify-center items-center mb-2">
-                  <Text className="text-xl">📷</Text>
+                  <View className="w-6 h-6 bg-gray-400 rounded-sm" />
                 </View>
                 <Text className="text-base text-gray-500 font-medium">
                   Cover Photo
@@ -201,7 +201,7 @@ export default function SignUpScreen() {
               </Text>
               <View className="flex-row space-x-3">
                 <View className="flex-row items-center bg-gray-50 border border-gray-200 rounded-xl px-3 py-4">
-                  <Text className="text-base mr-2">🇦🇺</Text>
+                  <View className="w-5 h-3 bg-blue-500 rounded-sm mr-2" />
                   <Text className="text-base text-gray-900 font-medium mr-2">+61</Text>
                   <Text className="text-xs text-gray-500">▼</Text>
                 </View>
