@@ -5,13 +5,13 @@ import {
   View,
   Text,
   TouchableOpacity,
+  TextInput,
   StyleSheet,
 } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-import AppInput from '../components/AppInput';
 import AppButton from '../components/AppButton';
 import { auth } from '../lib/firebase';
 import { validateEmail, showToast } from '@/utils';
@@ -25,6 +25,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!validateEmail(email)) {
@@ -74,10 +75,11 @@ export default function LoginScreen() {
             <View style={styles.form}>
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Email</Text>
-                <AppInput
+                <TextInput
                   value={email}
                   onChangeText={setEmail}
                   placeholder="Enter your email"
+                  placeholderTextColor="#9CA3AF"
                   autoCapitalize="none"
                   keyboardType="email-address"
                   autoComplete="email"
@@ -88,16 +90,25 @@ export default function LoginScreen() {
               
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Password</Text>
-                <AppInput
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="Enter your password"
-                  secureTextEntry
-                  autoCapitalize="none"
-                  autoComplete="password"
-                  textContentType="password"
-                  style={styles.input}
-                />
+                <View style={styles.passwordContainer}>
+                  <TextInput
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="Enter your password"
+                    placeholderTextColor="#9CA3AF"
+                    secureTextEntry={!showPassword}
+                    autoCapitalize="none"
+                    autoComplete="password"
+                    textContentType="password"
+                    style={styles.passwordInput}
+                  />
+                  <TouchableOpacity 
+                    style={styles.eyeButton}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <View style={[styles.eyeIcon, showPassword && styles.eyeIconOpen]} />
+                  </TouchableOpacity>
+                </View>
               </View>
 
               {/* Remember Me & Forgot Password */}
@@ -116,16 +127,15 @@ export default function LoginScreen() {
               </View>
 
               {/* Login Button */}
-              <AppButton
+              <TouchableOpacity
                 onPress={handleLogin}
-                loading={loading}
                 disabled={loading}
-                style={styles.loginButton}
+                style={[styles.loginButton, loading && styles.loginButtonDisabled]}
               >
                 <Text style={styles.loginButtonText}>
                   {loading ? 'Signing in...' : 'Log in'}
                 </Text>
-              </AppButton>
+              </TouchableOpacity>
 
               {/* Divider */}
               <View style={styles.dividerContainer}>
@@ -170,7 +180,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FEFEFE',
   },
   scrollView: {
     flex: 1,
@@ -184,8 +194,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginBottom: 32,
@@ -200,17 +210,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    marginBottom: 32,
+    marginBottom: 40,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '600',
+    fontSize: 32,
+    fontWeight: '700',
     color: '#1F2937',
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
     color: '#6B7280',
+    fontWeight: '400',
   },
   form: {
     marginBottom: 32,
@@ -220,19 +232,53 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#1F2937',
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
     borderColor: '#E5E7EB',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 16,
     fontSize: 16,
     color: '#1F2937',
+    fontWeight: '400',
+  },
+  passwordContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    paddingRight: 50,
+    fontSize: 16,
+    color: '#1F2937',
+    fontWeight: '400',
+  },
+  eyeButton: {
+    position: 'absolute',
+    right: 16,
+    top: 16,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    width: 20,
+    height: 12,
+    backgroundColor: '#9CA3AF',
+    borderRadius: 10,
+  },
+  eyeIconOpen: {
+    backgroundColor: '#14532D',
   },
   optionsRow: {
     flexDirection: 'row',
@@ -254,24 +300,38 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   checkboxActive: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
+    backgroundColor: '#14532D',
+    borderColor: '#14532D',
   },
   rememberText: {
     fontSize: 14,
     color: '#6B7280',
+    fontWeight: '400',
   },
   forgotText: {
     fontSize: 14,
-    color: '#10B981',
-    fontWeight: '500',
+    color: '#14532D',
+    fontWeight: '600',
   },
   loginButton: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#14532D',
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
     marginBottom: 32,
+    shadowColor: '#14532D',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  loginButtonDisabled: {
+    backgroundColor: '#9CA3AF',
+    shadowOpacity: 0,
+    elevation: 0,
   },
   loginButtonText: {
     color: '#FFFFFF',
@@ -292,6 +352,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     fontSize: 14,
     color: '#9CA3AF',
+    fontWeight: '500',
   },
   socialContainer: {
     flexDirection: 'row',
@@ -299,30 +360,38 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   socialButton: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
+    width: 60,
+    height: 60,
+    borderRadius: 12,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
     borderColor: '#E5E7EB',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   socialIconFacebook: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 24,
+    fontWeight: '700',
     color: '#1877F2',
   },
   socialIconGoogle: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 24,
+    fontWeight: '700',
     color: '#EA4335',
   },
   socialIconApple: {
     width: 24,
     height: 24,
     backgroundColor: '#000000',
-    borderRadius: 4,
+    borderRadius: 6,
   },
   linkContainer: {
     alignItems: 'center',
@@ -332,9 +401,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#6B7280',
     textAlign: 'center',
+    fontWeight: '400',
   },
   linkHighlight: {
-    color: '#10B981',
+    color: '#14532D',
     fontWeight: '600',
   },
 });
