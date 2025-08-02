@@ -5,13 +5,13 @@ import {
   View,
   Text,
   TouchableOpacity,
+  TextInput,
   StyleSheet,
 } from 'react-native';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-import AppInput from '../components/AppInput';
 import AppButton from '../components/AppButton';
 import { auth } from '../lib/firebase';
 import { validateEmail, showToast } from '@/utils';
@@ -31,6 +31,8 @@ export default function SignUpScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSignUp = async () => {
     if (!validateEmail(email)) {
@@ -137,10 +139,11 @@ export default function SignUpScreen() {
             {!isServiceProvider ? (
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Full Name</Text>
-                <AppInput
+                <TextInput
                   value={fullName}
                   onChangeText={setFullName}
                   placeholder="Enter your name"
+                  placeholderTextColor="#9CA3AF"
                   style={styles.input}
                 />
               </View>
@@ -148,23 +151,26 @@ export default function SignUpScreen() {
               <>
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>Business Name</Text>
-                  <AppInput
+                  <TextInput
                     value={businessName}
                     onChangeText={setBusinessName}
                     placeholder="Enter your business name"
+                    placeholderTextColor="#9CA3AF"
                     style={styles.input}
                   />
                 </View>
                 
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>About Business</Text>
-                  <AppInput
+                  <TextInput
                     value={businessDescription}
                     onChangeText={setBusinessDescription}
                     placeholder="Write about your business"
+                    placeholderTextColor="#9CA3AF"
                     multiline
                     numberOfLines={4}
                     style={[styles.input, styles.textArea]}
+                    textAlignVertical="top"
                   />
                 </View>
               </>
@@ -174,10 +180,11 @@ export default function SignUpScreen() {
               <Text style={styles.label}>
                 {isServiceProvider ? 'Business Email' : 'Email'}
               </Text>
-              <AppInput
+              <TextInput
                 value={email}
                 onChangeText={setEmail}
                 placeholder="Enter email"
+                placeholderTextColor="#9CA3AF"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 autoComplete="email"
@@ -194,10 +201,11 @@ export default function SignUpScreen() {
                   <Text style={styles.countryCodeText}>+61</Text>
                   <Text style={styles.dropdown}>▼</Text>
                 </View>
-                <AppInput
+                <TextInput
                   value={phone}
                   onChangeText={setPhone}
                   placeholder="000 000 0000"
+                  placeholderTextColor="#9CA3AF"
                   keyboardType="phone-pad"
                   style={[styles.input, styles.phoneInput]}
                 />
@@ -206,28 +214,46 @@ export default function SignUpScreen() {
 
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Password</Text>
-              <AppInput
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Enter password"
-                secureTextEntry
-                autoCapitalize="none"
-                autoComplete="password-new"
-                textContentType="newPassword"
-                style={styles.input}
-              />
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="Enter password"
+                  placeholderTextColor="#9CA3AF"
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                  autoComplete="password-new"
+                  textContentType="newPassword"
+                  style={styles.passwordInput}
+                />
+                <TouchableOpacity 
+                  style={styles.eyeButton}
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <View style={[styles.eyeIcon, showPassword && styles.eyeIconOpen]} />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Confirm Password</Text>
-              <AppInput
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                placeholder="Enter confirm password"
-                secureTextEntry
-                autoCapitalize="none"
-                style={styles.input}
-              />
+              <View style={styles.passwordContainer}>
+                <TextInput
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  placeholder="Enter confirm password"
+                  placeholderTextColor="#9CA3AF"
+                  secureTextEntry={!showConfirmPassword}
+                  autoCapitalize="none"
+                  style={styles.passwordInput}
+                />
+                <TouchableOpacity 
+                  style={styles.eyeButton}
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  <View style={[styles.eyeIcon, showConfirmPassword && styles.eyeIconOpen]} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
 
@@ -248,9 +274,8 @@ export default function SignUpScreen() {
           </View>
 
           {/* Sign Up Button */}
-          <AppButton
+          <TouchableOpacity
             onPress={handleSignUp}
-            loading={loading}
             disabled={loading || !agreeToTerms}
             style={[
               styles.signUpButton,
@@ -260,7 +285,7 @@ export default function SignUpScreen() {
             <Text style={styles.signUpButtonText}>
               {loading ? 'Creating account...' : 'Sign Up'}
             </Text>
-          </AppButton>
+          </TouchableOpacity>
 
           {/* Login Link */}
           <View style={styles.linkContainer}>
@@ -283,7 +308,7 @@ export default function SignUpScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FEFEFE',
   },
   scrollView: {
     flex: 1,
@@ -297,8 +322,8 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   backButton: {
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginBottom: 32,
@@ -312,23 +337,27 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '600',
+    fontSize: 32,
+    fontWeight: '700',
     color: '#1F2937',
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
     color: '#6B7280',
+    fontWeight: '400',
   },
   userTypeContainer: {
     marginBottom: 32,
   },
   userTypeSelector: {
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#F8F9FA',
     borderRadius: 12,
     padding: 4,
     flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
   userTypeButton: {
     flex: 1,
@@ -338,24 +367,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userTypeButtonActive: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#14532D',
+    shadowColor: '#14532D',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   userTypeText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#6B7280',
   },
   userTypeTextActive: {
     color: '#FFFFFF',
   },
   coverPhotoContainer: {
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F8F9FA',
     borderRadius: 16,
     padding: 24,
     marginBottom: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
   coverPhotoContent: {
     alignItems: 'center',
@@ -365,7 +404,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     backgroundColor: '#E5E7EB',
-    borderRadius: 8,
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
@@ -374,25 +413,23 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     backgroundColor: '#9CA3AF',
-    borderRadius: 4,
+    borderRadius: 6,
   },
   coverPhotoLabel: {
     fontSize: 16,
-    color: '#9CA3AF',
-    fontWeight: '500',
+    color: '#6B7280',
+    fontWeight: '600',
   },
   addPhotoButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#14532D',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
   },
   addPhotoText: {
     fontSize: 14,
-    color: '#1F2937',
-    fontWeight: '500',
+    color: '#FFFFFF',
+    fontWeight: '600',
   },
   form: {
     marginBottom: 24,
@@ -402,19 +439,20 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
     color: '#1F2937',
     marginBottom: 8,
   },
   input: {
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
     borderColor: '#E5E7EB',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 16,
     fontSize: 16,
     color: '#1F2937',
+    fontWeight: '400',
   },
   textArea: {
     height: 96,
@@ -427,8 +465,8 @@ const styles = StyleSheet.create({
   countryCode: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-    borderWidth: 1,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
     borderColor: '#E5E7EB',
     borderRadius: 12,
     paddingHorizontal: 12,
@@ -438,13 +476,13 @@ const styles = StyleSheet.create({
   flagPlaceholder: {
     width: 20,
     height: 12,
-    backgroundColor: '#3B82F6',
+    backgroundColor: '#14532D',
     borderRadius: 2,
   },
   countryCodeText: {
     fontSize: 16,
     color: '#1F2937',
-    fontWeight: '500',
+    fontWeight: '600',
   },
   dropdown: {
     fontSize: 12,
@@ -452,6 +490,39 @@ const styles = StyleSheet.create({
   },
   phoneInput: {
     flex: 1,
+  },
+  passwordContainer: {
+    position: 'relative',
+  },
+  passwordInput: {
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: '#E5E7EB',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    paddingRight: 50,
+    fontSize: 16,
+    color: '#1F2937',
+    fontWeight: '400',
+  },
+  eyeButton: {
+    position: 'absolute',
+    right: 16,
+    top: 16,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    width: 20,
+    height: 12,
+    backgroundColor: '#9CA3AF',
+    borderRadius: 10,
+  },
+  eyeIconOpen: {
+    backgroundColor: '#14532D',
   },
   termsContainer: {
     flexDirection: 'row',
@@ -471,28 +542,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   checkboxActive: {
-    backgroundColor: '#10B981',
-    borderColor: '#10B981',
+    backgroundColor: '#14532D',
+    borderColor: '#14532D',
   },
   termsText: {
     flex: 1,
     fontSize: 14,
     color: '#6B7280',
     lineHeight: 20,
+    fontWeight: '400',
   },
   termsLink: {
-    color: '#10B981',
-    fontWeight: '500',
+    color: '#14532D',
+    fontWeight: '600',
   },
   signUpButton: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#14532D',
     borderRadius: 12,
     paddingVertical: 16,
     alignItems: 'center',
     marginBottom: 32,
+    shadowColor: '#14532D',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
   },
   signUpButtonDisabled: {
-    backgroundColor: '#D1D5DB',
+    backgroundColor: '#9CA3AF',
+    shadowOpacity: 0,
+    elevation: 0,
   },
   signUpButtonText: {
     color: '#FFFFFF',
@@ -507,9 +589,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#6B7280',
     textAlign: 'center',
+    fontWeight: '400',
   },
   linkHighlight: {
-    color: '#10B981',
+    color: '#14532D',
     fontWeight: '600',
   },
 });
