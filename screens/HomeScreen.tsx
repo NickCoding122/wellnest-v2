@@ -30,36 +30,39 @@ export default function HomeScreen() {
   };
 
   const categories = [
-    { id: 1, name: 'Nutrition', icon: 'N', color: '#FFF7ED' },
-    { id: 2, name: 'Personal Growth', icon: 'P', color: '#F3E8FF' },
-    { id: 3, name: 'Health', icon: 'H', color: '#FEF2F2' },
-    { id: 4, name: 'Fitness', icon: 'F', color: '#EFF6FF' },
+    { id: 1, name: 'Nutrition', color: '#FEF3E2' },
+    { id: 2, name: 'Mental Health', color: '#F0F9FF' },
+    { id: 3, name: 'Fitness', color: '#F0FDF4' },
+    { id: 4, name: 'Wellness', color: '#FAF5FF' },
   ];
 
   const providers = [
     {
       id: 1,
-      name: 'Georgina Goldstein',
-      service: 'Counselling',
+      name: 'Dr. Sarah Johnson',
+      service: 'Nutritionist',
       image: null,
       rating: 4.8,
       reviews: 42,
+      price: 120,
     },
     {
       id: 2,
-      name: 'Megane Salgado',
-      service: 'Counselling',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&h=150&fit=crop&crop=face',
+      name: 'Michael Chen',
+      service: 'Personal Trainer',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
       rating: 4.9,
       reviews: 67,
+      price: 85,
     },
     {
       id: 3,
-      name: 'Alex Chen',
-      service: 'Nutrition',
+      name: 'Dr. Emma Wilson',
+      service: 'Therapist',
       image: null,
       rating: 4.7,
       reviews: 31,
+      price: 150,
     },
   ];
 
@@ -76,14 +79,13 @@ export default function HomeScreen() {
               <Text style={styles.locationLabel}>Current Location</Text>
               <View style={styles.locationRow}>
                 <Text style={styles.locationText}>{currentLocation}</Text>
-                <Text style={styles.locationSubtext}>NSW, Aus</Text>
-                <Text style={styles.dropdown}>▼</Text>
+                <Text style={styles.locationSubtext}>NSW, Australia</Text>
               </View>
             </View>
           </View>
           
           <TouchableOpacity style={styles.notificationButton}>
-            <View style={styles.notificationIcon} />
+            <View style={styles.notificationBadge} />
           </TouchableOpacity>
         </View>
       </View>
@@ -92,52 +94,54 @@ export default function HomeScreen() {
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
+        {/* Welcome Section */}
+        <View style={styles.welcomeSection}>
+          <Text style={styles.welcomeText}>
+            Good morning, {user?.email?.split('@')[0] || 'there'}
+          </Text>
+          <Text style={styles.welcomeSubtext}>
+            How can we help you feel better today?
+          </Text>
+        </View>
+
         {/* Categories */}
         <View style={styles.categoriesSection}>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoriesContent}
-          >
-            {categories.map((category, index) => (
+          <Text style={styles.sectionTitle}>Browse Services</Text>
+          <View style={styles.categoriesGrid}>
+            {categories.map((category) => (
               <TouchableOpacity 
                 key={category.id} 
                 style={[styles.categoryCard, { backgroundColor: category.color }]}
               >
-                <View style={styles.categoryIcon}>
-                  <Text style={styles.categoryIconText}>{category.icon}</Text>
-                </View>
+                <View style={styles.categoryIcon} />
                 <Text style={styles.categoryText}>{category.name}</Text>
               </TouchableOpacity>
             ))}
-          </ScrollView>
+          </View>
         </View>
 
         {/* Featured Banner */}
         <View style={styles.bannerSection}>
           <View style={styles.banner}>
             <View style={styles.bannerContent}>
-              <View style={styles.bestSellerBadge}>
-                <Text style={styles.bestSellerText}>Best Seller</Text>
+              <View style={styles.badgeContainer}>
+                <Text style={styles.badgeText}>Premium</Text>
               </View>
-              <Text style={styles.bannerTitle}>Sports & Fitness</Text>
-              <Text style={styles.bannerSubtitle}>Personal training sessions</Text>
+              <Text style={styles.bannerTitle}>Professional Wellness</Text>
+              <Text style={styles.bannerSubtitle}>
+                Connect with certified health professionals
+              </Text>
+              <TouchableOpacity style={styles.bannerButton}>
+                <Text style={styles.bannerButtonText}>Explore</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.bannerImage} />
-          </View>
-          
-          {/* Pagination Dots */}
-          <View style={styles.pagination}>
-            <View style={[styles.dot, styles.activeDot]} />
-            <View style={styles.dot} />
-            <View style={styles.dot} />
           </View>
         </View>
 
-        {/* Popular Near Me Section */}
+        {/* Popular Providers */}
         <View style={styles.providersSection}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Popular Near Me</Text>
+            <Text style={styles.sectionTitle}>Recommended for You</Text>
             <TouchableOpacity>
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
@@ -166,15 +170,20 @@ export default function HomeScreen() {
                   )}
                 </View>
                 
-                <Text style={styles.providerName} numberOfLines={1}>
-                  {provider.name}
-                </Text>
-                <Text style={styles.providerService}>{provider.service}</Text>
-                
-                <View style={styles.ratingContainer}>
-                  <View style={styles.starIcon} />
-                  <Text style={styles.rating}>{provider.rating}</Text>
-                  <Text style={styles.reviews}>({provider.reviews})</Text>
+                <View style={styles.providerInfo}>
+                  <Text style={styles.providerName} numberOfLines={1}>
+                    {provider.name}
+                  </Text>
+                  <Text style={styles.providerService}>{provider.service}</Text>
+                  
+                  <View style={styles.providerMeta}>
+                    <View style={styles.ratingContainer}>
+                      <View style={styles.starIcon} />
+                      <Text style={styles.rating}>{provider.rating}</Text>
+                      <Text style={styles.reviews}>({provider.reviews})</Text>
+                    </View>
+                    <Text style={styles.price}>${provider.price}</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             ))}
@@ -186,44 +195,38 @@ export default function HomeScreen() {
           <Text style={styles.sectionTitle}>Quick Actions</Text>
           
           <View style={styles.quickActionsGrid}>
-            <TouchableOpacity style={[styles.quickActionCard, styles.quickActionPrimary]}>
+            <TouchableOpacity style={styles.quickActionCard}>
               <View style={styles.quickActionIcon} />
-              <Text style={styles.quickActionTextPrimary}>Book Session</Text>
+              <Text style={styles.quickActionText}>Book Session</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={[styles.quickActionCard, styles.quickActionSecondary]}>
+            <TouchableOpacity style={styles.quickActionCard}>
               <View style={styles.quickActionIcon} />
-              <Text style={styles.quickActionTextSecondary}>Messages</Text>
+              <Text style={styles.quickActionText}>Messages</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={[styles.quickActionCard, styles.quickActionTertiary]}>
+            <TouchableOpacity style={styles.quickActionCard}>
               <View style={styles.quickActionIcon} />
-              <Text style={styles.quickActionTextTertiary}>Progress</Text>
+              <Text style={styles.quickActionText}>My Health</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* User Info & Logout (Debug) */}
+        {/* Debug Logout */}
         <View style={styles.debugSection}>
-          <View style={styles.debugCard}>
-            <Text style={styles.debugText}>
-              Welcome, {user?.email?.split('@')[0]}
+          <TouchableOpacity
+            onPress={handleLogout}
+            disabled={loading}
+            style={[styles.logoutButton, loading && styles.logoutButtonDisabled]}
+          >
+            <Text style={styles.logoutButtonText}>
+              {loading ? 'Signing out...' : 'Sign Out'}
             </Text>
-            <AppButton
-              onPress={handleLogout}
-              loading={loading}
-              disabled={loading}
-              style={styles.logoutButton}
-            >
-              <Text style={styles.logoutButtonText}>
-                {loading ? 'Signing out...' : 'Log Out'}
-              </Text>
-            </AppButton>
-          </View>
+          </TouchableOpacity>
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation Placeholder */}
+      {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         <View style={styles.bottomNavContent}>
           <TouchableOpacity style={styles.bottomNavItem}>
@@ -232,15 +235,15 @@ export default function HomeScreen() {
           </TouchableOpacity>
           <TouchableOpacity style={styles.bottomNavItem}>
             <View style={styles.bottomNavIcon} />
-            <Text style={styles.bottomNavText}>Discover</Text>
+            <Text style={styles.bottomNavText}>Search</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.bottomNavItem}>
             <View style={styles.bottomNavIcon} />
-            <Text style={styles.bottomNavText}>Booking</Text>
+            <Text style={styles.bottomNavText}>Bookings</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.bottomNavItem}>
             <View style={styles.bottomNavIcon} />
-            <Text style={styles.bottomNavText}>Message</Text>
+            <Text style={styles.bottomNavText}>Messages</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.bottomNavItem}>
             <View style={styles.bottomNavIcon} />
@@ -255,10 +258,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FEFEFE',
   },
   header: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#14532D',
     paddingHorizontal: 24,
     paddingTop: 16,
     paddingBottom: 24,
@@ -286,7 +289,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   locationLabel: {
-    color: '#A7F3D0',
+    color: '#BBF7D0',
     fontSize: 14,
     fontWeight: '500',
   },
@@ -297,27 +300,23 @@ const styles = StyleSheet.create({
   locationText: {
     color: '#FFFFFF',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
     marginRight: 8,
   },
   locationSubtext: {
-    color: '#A7F3D0',
+    color: '#BBF7D0',
     fontSize: 14,
-  },
-  dropdown: {
-    color: '#A7F3D0',
-    fontSize: 12,
-    marginLeft: 4,
+    fontWeight: '400',
   },
   notificationButton: {
     width: 40,
     height: 40,
-    backgroundColor: '#059669',
-    borderRadius: 20,
+    backgroundColor: '#166534',
+    borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  notificationIcon: {
+  notificationBadge: {
     width: 16,
     height: 16,
     backgroundColor: '#FFFFFF',
@@ -326,118 +325,126 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  welcomeSection: {
+    paddingHorizontal: 24,
+    paddingTop: 32,
+    paddingBottom: 16,
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#1F2937',
+    marginBottom: 4,
+    letterSpacing: -0.5,
+  },
+  welcomeSubtext: {
+    fontSize: 16,
+    color: '#6B7280',
+    fontWeight: '400',
+  },
   categoriesSection: {
     paddingHorizontal: 24,
-    paddingTop: 24,
+    paddingBottom: 32,
   },
-  categoriesContent: {
-    paddingRight: 24,
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#1F2937',
+    marginBottom: 16,
+    letterSpacing: -0.3,
+  },
+  categoriesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   categoryCard: {
+    width: '47%',
     borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginRight: 12,
-    minWidth: 100,
+    padding: 20,
+    marginBottom: 12,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   categoryIcon: {
     width: 32,
     height: 32,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  categoryIconText: {
-    color: '#374151',
-    fontWeight: 'bold',
+    backgroundColor: '#14532D',
+    borderRadius: 8,
+    marginBottom: 12,
   },
   categoryText: {
     color: '#374151',
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: '600',
     textAlign: 'center',
   },
   bannerSection: {
     paddingHorizontal: 24,
-    paddingTop: 32,
+    paddingBottom: 32,
   },
   banner: {
-    backgroundColor: '#374151',
-    borderRadius: 24,
+    backgroundColor: '#14532D',
+    borderRadius: 20,
     padding: 24,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   bannerContent: {
-    flex: 1,
+    alignItems: 'flex-start',
   },
-  bestSellerBadge: {
-    backgroundColor: '#10B981',
-    borderRadius: 20,
+  badgeContainer: {
+    backgroundColor: '#F59E0B',
+    borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
-    alignSelf: 'flex-start',
     marginBottom: 12,
   },
-  bestSellerText: {
+  badgeText: {
     color: '#FFFFFF',
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   bannerTitle: {
     color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 8,
+    letterSpacing: -0.3,
   },
   bannerSubtitle: {
-    color: '#D1D5DB',
-    fontSize: 14,
+    color: '#BBF7D0',
+    fontSize: 16,
+    fontWeight: '400',
+    marginBottom: 20,
+    lineHeight: 22,
   },
-  bannerImage: {
-    width: 48,
-    height: 48,
-    backgroundColor: '#F97316',
-    borderRadius: 24,
-    marginLeft: 16,
+  bannerButton: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
   },
-  pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 16,
-    gap: 8,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    backgroundColor: '#D1D5DB',
-    borderRadius: 4,
-  },
-  activeDot: {
-    backgroundColor: '#10B981',
+  bannerButtonText: {
+    color: '#14532D',
+    fontSize: 16,
+    fontWeight: '700',
   },
   providersSection: {
     paddingHorizontal: 24,
-    paddingTop: 32,
+    paddingBottom: 32,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1F2937',
+    marginBottom: 16,
   },
   viewAllText: {
-    color: '#10B981',
-    fontWeight: '500',
+    color: '#14532D',
+    fontWeight: '600',
+    fontSize: 16,
   },
   providersContent: {
     paddingRight: 24,
@@ -449,19 +456,19 @@ const styles = StyleSheet.create({
     borderColor: '#F3F4F6',
     padding: 16,
     marginRight: 16,
-    width: 192,
-    shadowColor: '#000',
+    width: 200,
+    shadowColor: '#000000',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    shadowRadius: 8,
+    elevation: 2,
   },
   providerImageContainer: {
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 12,
   },
   providerImage: {
     width: 64,
@@ -471,7 +478,7 @@ const styles = StyleSheet.create({
   providerImagePlaceholder: {
     width: 64,
     height: 64,
-    backgroundColor: '#E5E7EB',
+    backgroundColor: '#F3F4F6',
     borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
@@ -479,24 +486,34 @@ const styles = StyleSheet.create({
   providerImageIcon: {
     width: 32,
     height: 32,
-    backgroundColor: '#9CA3AF',
+    backgroundColor: '#D1D5DB',
     borderRadius: 16,
+  },
+  providerInfo: {
+    alignItems: 'center',
   },
   providerName: {
     color: '#1F2937',
-    fontWeight: '600',
+    fontWeight: '700',
+    fontSize: 16,
     textAlign: 'center',
     marginBottom: 4,
   },
   providerService: {
     color: '#6B7280',
     fontSize: 14,
+    fontWeight: '500',
     textAlign: 'center',
     marginBottom: 12,
   },
+  providerMeta: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
   ratingContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   starIcon: {
@@ -509,87 +526,71 @@ const styles = StyleSheet.create({
   rating: {
     color: '#374151',
     fontSize: 14,
-    fontWeight: '500',
-    marginRight: 4,
+    fontWeight: '600',
+    marginRight: 2,
   },
   reviews: {
     color: '#9CA3AF',
     fontSize: 12,
+    fontWeight: '400',
+  },
+  price: {
+    color: '#14532D',
+    fontSize: 16,
+    fontWeight: '700',
   },
   quickActionsSection: {
     paddingHorizontal: 24,
-    paddingTop: 32,
+    paddingBottom: 32,
   },
   quickActionsGrid: {
     flexDirection: 'row',
-    gap: 16,
-    marginTop: 24,
+    justifyContent: 'space-between',
   },
   quickActionCard: {
     flex: 1,
+    backgroundColor: '#F8F9FA',
     borderRadius: 16,
-    padding: 16,
+    padding: 20,
     alignItems: 'center',
-  },
-  quickActionPrimary: {
-    backgroundColor: '#ECFDF5',
-  },
-  quickActionSecondary: {
-    backgroundColor: '#EFF6FF',
-  },
-  quickActionTertiary: {
-    backgroundColor: '#F3E8FF',
+    marginHorizontal: 4,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   quickActionIcon: {
     width: 32,
     height: 32,
-    backgroundColor: '#10B981',
+    backgroundColor: '#14532D',
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 12,
   },
-  quickActionTextPrimary: {
-    color: '#065F46',
-    fontWeight: '500',
-    textAlign: 'center',
-  },
-  quickActionTextSecondary: {
-    color: '#1E40AF',
-    fontWeight: '500',
-    textAlign: 'center',
-  },
-  quickActionTextTertiary: {
-    color: '#7C3AED',
-    fontWeight: '500',
+  quickActionText: {
+    color: '#374151',
+    fontWeight: '600',
+    fontSize: 14,
     textAlign: 'center',
   },
   debugSection: {
     paddingHorizontal: 24,
-    paddingTop: 32,
     paddingBottom: 32,
   },
-  debugCard: {
-    backgroundColor: '#F9FAFB',
-    borderRadius: 16,
-    padding: 16,
-  },
-  debugText: {
-    color: '#6B7280',
-    fontSize: 14,
-    marginBottom: 12,
-  },
   logoutButton: {
-    backgroundColor: '#EF4444',
+    backgroundColor: '#DC2626',
     borderRadius: 12,
-    paddingVertical: 12,
+    paddingVertical: 16,
     alignItems: 'center',
+  },
+  logoutButtonDisabled: {
+    backgroundColor: '#9CA3AF',
   },
   logoutButtonText: {
     color: '#FFFFFF',
-    fontWeight: '500',
+    fontWeight: '600',
+    fontSize: 16,
   },
   bottomNav: {
     borderTopWidth: 1,
-    borderTopColor: '#E5E7EB',
+    borderTopColor: '#F3F4F6',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 24,
     paddingVertical: 12,
@@ -605,20 +606,21 @@ const styles = StyleSheet.create({
   bottomNavIcon: {
     width: 24,
     height: 24,
-    backgroundColor: '#9CA3AF',
+    backgroundColor: '#D1D5DB',
     borderRadius: 6,
     marginBottom: 4,
   },
   bottomNavIconActive: {
-    backgroundColor: '#10B981',
+    backgroundColor: '#14532D',
   },
   bottomNavText: {
     color: '#9CA3AF',
     fontSize: 12,
+    fontWeight: '500',
   },
   bottomNavTextActive: {
-    color: '#10B981',
+    color: '#14532D',
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });
