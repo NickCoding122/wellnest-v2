@@ -28,7 +28,7 @@ export default function ModalScreen() {
         <View className="bg-gray-50 rounded-2xl p-6 mb-8">
           <View className="flex-row items-center mb-4">
             <View className="w-16 h-16 bg-gray-200 rounded-full justify-center items-center mr-4">
-              <Text className="text-2xl">👤</Text>
+              <View className="w-8 h-8 bg-gray-400 rounded-full" />
             </View>
             <View className="flex-1">
               <Text className="text-gray-900 font-bold text-lg">John Doe</Text>
@@ -46,7 +46,7 @@ export default function ModalScreen() {
         <View className="space-y-4 mb-8">
           <TouchableOpacity className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-2xl mr-4">🔔</Text>
+              <View className="w-8 h-8 bg-blue-500 rounded-lg mr-4" />
               <View>
                 <Text className="text-gray-900 font-medium">Notifications</Text>
                 <Text className="text-gray-600 text-sm">Manage your alerts</Text>
@@ -57,7 +57,7 @@ export default function ModalScreen() {
 
           <TouchableOpacity className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-2xl mr-4">🔒</Text>
+              <View className="w-8 h-8 bg-green-500 rounded-lg mr-4" />
               <View>
                 <Text className="text-gray-900 font-medium">Privacy & Security</Text>
                 <Text className="text-gray-600 text-sm">Account protection</Text>
@@ -68,7 +68,7 @@ export default function ModalScreen() {
 
           <TouchableOpacity className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-2xl mr-4">💳</Text>
+              <View className="w-8 h-8 bg-purple-500 rounded-lg mr-4" />
               <View>
                 <Text className="text-gray-900 font-medium">Payment Methods</Text>
                 <Text className="text-gray-600 text-sm">Manage cards and billing</Text>
@@ -79,7 +79,7 @@ export default function ModalScreen() {
 
           <TouchableOpacity className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-2xl mr-4">🎨</Text>
+              <View className="w-8 h-8 bg-orange-500 rounded-lg mr-4" />
               <View>
                 <Text className="text-gray-900 font-medium">Appearance</Text>
                 <Text className="text-gray-600 text-sm">Theme and display</Text>
@@ -90,7 +90,7 @@ export default function ModalScreen() {
 
           <TouchableOpacity className="bg-white border border-gray-100 rounded-2xl p-4 flex-row items-center justify-between">
             <View className="flex-row items-center">
-              <Text className="text-2xl mr-4">❓</Text>
+              <View className="w-8 h-8 bg-red-500 rounded-lg mr-4" />
               <View>
                 <Text className="text-gray-900 font-medium">Help & Support</Text>
                 <Text className="text-gray-600 text-sm">Get assistance</Text>
